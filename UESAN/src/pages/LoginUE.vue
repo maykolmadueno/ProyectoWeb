@@ -27,13 +27,11 @@
             margin-right: 50px;
             width: 80%;
             padding: 4px;
-            background-color: transparent !important;
-            color: white !important; /* Establece el color del texto */
+            color: white;
             text-align: center;
           "
           label="example@esan.edu.pe"
           label-color="white"
-          filled
         />
       </div>
       <div class="right-side-password">
