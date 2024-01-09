@@ -39,7 +39,7 @@
       </div>
       <div class="q-gutter-md q-row justify-center" style="gap: 20px">
         <!-- Tarjeta de Fotografías -->
-        <q-card v-on:click="irA('fotografias')" class="q-pa-md cursor-pointer">
+        <q-card v-on:click="irA('ServicioFotos')" class="q-pa-md cursor-pointer">
           <q-img
             src="src/assets/fotografias.png"
             basic

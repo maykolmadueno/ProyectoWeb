@@ -68,6 +68,7 @@ export default {
     handleButtonClick() {
       // Función que se ejecuta al hacer clic en el botón
       console.log("Botón clicado");
+      this.$router.push('/home');
     },
   },
 };

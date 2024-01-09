@@ -25,6 +25,15 @@ const routes = [
     path: "/services",
     component: () => import("pages/ServiciosUE.vue"),
   },
+  {
+    path: "/ServicioFotos",
+    component: () => import("components/CrearServicioFoto.vue"),
+  },
+
+  {
+    path: "/CreateEventos",
+    component: () => import("components/CreateEventos.vue"),
+  },
 ];
 
 export default routes;

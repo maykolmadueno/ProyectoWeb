@@ -64,6 +64,7 @@ export default {
       this.$router.push({ path: ruta });
     },
     nuevoEvento() {
+      this.$router.push('/CreateEventos');
       // Lógica para el botón Nuevo Evento
     },
   },
@@ -76,6 +77,7 @@ export default {
   color: white;
   padding: 20px;
 }
+
 .css-btn-ne {
   border: 2.5px solid white;
   border-radius: 20px;
@@ -84,6 +86,7 @@ export default {
   font-size: 18px;
   margin-right: 25px;
 }
+
 .css-contenido {
   text-align: center;
 }
