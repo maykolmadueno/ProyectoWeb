@@ -36,7 +36,7 @@
     </div>
 
     <!-- Parte Derecha: Lista de Solicitudes -->
-    <div class="solicitudes">
+    <div class="solicitudes" v-if="solicitudes.length > 0">
       <h2>Solicitudes Guardadas</h2>
       <div v-for="(solicitud, index) in solicitudes" :key="index" class="solicitud-item">
         <div>
@@ -65,11 +65,18 @@
 export default {
 
   created() {
-    //Recuperar las solicitudes almacenadas en el localStorage al crear el componente
-    const solicitudesGuardadas = JSON.parse(localStorage.getItem('FotosSolicitadas')) || [];
-    // Asignar las solicitudes recuperadas al array del componente
-    this.solicitudes = solicitudesGuardadas;
-    this.limpiarFormulario();
+    // Recuperar las solicitudes almacenadas en el localStorage al crear el componente
+  const solicitudesGuardadas = localStorage.getItem('FotosSolicitadas');
+
+  if (solicitudesGuardadas) {
+    try {
+      // Intentar parsear la cadena JSON y asignarla al array del componente
+      this.solicitudes = JSON.parse(solicitudesGuardadas);
+      this.limpiarFormulario();
+    } catch (error) {
+      this.solicitudes = [];
+    }
+  }
   },
 
 
@@ -100,8 +107,6 @@ export default {
 
     modificarSolicitud(index){
       //Asigno los valores al formulario:
-      console.log("Entro a la funcion modificar con el indice: " + index)
-
 
       this.sc = this.solicitudes[index];
 
@@ -127,7 +132,7 @@ export default {
 
     regresarServiciosMenu(){
       //Antes de regresar al menu, meto las solicitudes al localstorage. :)
-      localStorage.setItem("FotosSolicitadas",this.solicitudes);
+      localStorage.setItem("FotosSolicitadas",JSON.stringify(this.solicitudes));
       this.$router.push('/services');
     },
 

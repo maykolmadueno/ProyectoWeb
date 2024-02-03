@@ -53,11 +53,17 @@
 <script>
 export default {
   created() {
-    //Recuperar las solicitudes almacenadas en el localStorage al crear el componente
-    const solicitudesGuardadas = JSON.parse(localStorage.getItem('VideosSolicitados')) || [];
-    // Asignar las solicitudes recuperadas al array del componente
-    this.solicitudes = solicitudesGuardadas;
-    this.limpiarFormulario();
+    const solicitudesGuardadas = localStorage.getItem('VideosSolicitados');
+
+  if (solicitudesGuardadas) {
+    try {
+      // Intentar parsear la cadena JSON y asignarla al array del componente
+      this.solicitudes = JSON.parse(solicitudesGuardadas);
+      this.limpiarFormulario();
+    } catch (error) {
+      this.solicitudes = [];
+    }
+  }
   },
   data() {
     return {
@@ -118,7 +124,7 @@ export default {
 
     regresarServiciosMenu() {
       //Antes de regresar al menu, meto las solicitudes al localstorage. :)
-      localStorage.setItem("VideosSolicitados",this.solicitudes);
+      localStorage.setItem("VideosSolicitados",JSON.stringify(this.solicitudes));
       this.$router.push('/services');
     },
   },
