@@ -4,43 +4,43 @@
     <form @submit.prevent="crearServicios">
 
       <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input type="text" v-model="nombre" required>
+        <label for="e.nombre">Nombre:</label>
+        <input type="text" v-model="e.nombre" required>
       </div>
 
       <div class="form-group">
-        <label for="descripcion">Descripción:</label>
-        <textarea v-model="descripcion" required></textarea>
+        <label for="e.descripcion">Descripción:</label>
+        <textarea v-model="e.descripcion" required></textarea>
       </div>
 
       <div class="form-group">
-        <label for="fechaEvento">Fecha del Evento:</label>
-        <input type="date" v-model="fechaEvento" required>
+        <label for="e.fechaEvento">Fecha del Evento:</label>
+        <input type="date" v-model="e.fechaEvento" required>
       </div>
 
       <div class="form-group">
-        <label for="horaInicio">Hora de Inicio:</label>
-        <input type="time" v-model="horaInicio" required>
+        <label for="e.horaInicio">Hora de Inicio:</label>
+        <input type="time" v-model="e.horaInicio" required>
       </div>
 
       <div class="form-group">
-        <label for="horaFin">Hora de Fin:</label>
-        <input type="time" v-model="horaFin" required>
+        <label for="e.horaFin">Hora de Fin:</label>
+        <input type="time" v-model="e.horaFin" required>
       </div>
 
       <div class="form-group">
-        <label for="lugar">Lugar:</label>
-        <input type="text" v-model="lugar" required>
+        <label for="e.lugar">Lugar:</label>
+        <input type="text" v-model="e.lugar" required>
       </div>
 
       <div class="form-group">
-        <label for="momentosImportantes">Momentos Importantes:</label>
-        <textarea v-model="momentosImportantes"></textarea>
+        <label for="e.momentosImportantes">Momentos Importantes:</label>
+        <textarea v-model="e.momentosImportantes"></textarea>
       </div>
 
       <div class="form-group">
-        <label for="cantidadInvitados">Cantidad de Invitados:</label>
-        <input type="number" v-model="cantidadInvitados" required>
+        <label for="e.cantidadInvitados">Cantidad de Invitados:</label>
+        <input type="number" v-model="e.cantidadInvitados" required>
       </div>
 
       <button @click="crearServicios">Crear Servicios</button>
@@ -49,51 +49,79 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      nombre: '',
-      descripcion: '',
-      fechaEvento: '',
-      horaInicio: '',
-      horaFin: '',
-      lugar: '',
-      momentosImportantes: '',
-      cantidadInvitados: '',
+      e : {
+        nombre: '',
+        descripcion: '',
+        fechaEvento: '',
+        horaInicio: '',
+        horaFin: '',
+        lugar: '',
+        momentosImportantes: '',
+        cantidadInvitados: 0,
+      }
+
     };
   },
   methods: {
     crearServicios() {
-      const evento = {
-        nombre: this.nombre,
-        descripcion: this.descripcion,
-        fechaEvento: new Date(this.fechaEvento).toISOString(),
-        horaInicio: this.horaInicio,
-        horaFin: this.horaFin,
-        lugar: this.lugar,
-        momentosImportantes: this.momentosImportantes,
-        cantidadInvitados: this.cantidadInvitados,
-        idUsuario: 1,
-      };
 
+      const EventoInsertDTO = {
+        nombre: this.e.nombre,
+        descripcion: this.e.descripcion,
+        fechaEvento: new Date(this.e.fechaEvento).toISOString(),
+        horaInicio: this.e.horaInicio,
+        horaFin: this.e.horaFin,
+        lugar: this.e.lugar,
+        fechaCreacion:  new Date().toISOString(),
+        momentosImportantes: this.e.momentosImportantes,
+        cantidadInvitados: Number(this.e.cantidadInvitados),
+        idUsuario: 1
+      };
       // Aquí puedes hacer lo que desees con el objeto evento, por ejemplo, enviarlo a la API
-      console.log('Evento guardado:', evento);
+      //Crear evento:
+
+      console.log("Evento enviado: "+ JSON.stringify(EventoInsertDTO))
+
+
+      const url = "http://localhost:5158/api/Eventos/CreateEventos";
+      axios
+        .post(url,EventoInsertDTO)
+        .then((response) => {
+          console.log("La respuesta es:  "+ response.data);
+          localStorage.setItem("EventoCreado", response.data);
+
+        })
+        .catch((error) => {
+          console.log("Ocurrió un error " + error);
+          /*this.$q.notify({
+            message: "Ocurrió un error",
+            color: "negative",
+            position: "top",
+            timeout: 3000,
+          });*/
+        });
+
       //localStorage.setItem("EventoActual", this.evento.data);
-      localStorage.setItem("EventoActual", JSON.stringify(evento));
+      //localStorage.setItem("EventoActual", JSON.stringify(evento));
       // Redirige a la página de servicios
+      this.limpiarFormulario();
       this.$router.push('/services');
       // Limpia el formulario después de guardar
-      this.limpiarFormulario();
+
     },
     limpiarFormulario() {
-      this.nombre = '';
-      this.descripcion = '';
-      this.fechaEvento = '';
-      this.horaInicio = '';
-      this.horaFin = '';
-      this.lugar = '';
-      this.momentosImportantes = '';
-      this.cantidadInvitados = '';
+      this.e.nombre = '';
+      this.e.descripcion = '';
+      this.e.fechaEvento = '';
+      this.e.horaInicio = '';
+      this.e.horaFin = '';
+      this.e.lugar = '';
+      this.e.momentosImportantes = '';
+      this.e.cantidadInvitados = 0;
     },
   },
 };

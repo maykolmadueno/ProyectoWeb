@@ -51,7 +51,7 @@
         </q-card>
 
         <!-- Tarjeta de Videos -->
-        <q-card v-on:click="irA('videos')" class="q-pa-md cursor-pointer">
+        <q-card v-on:click="irA('ServicioVideos')" class="q-pa-md cursor-pointer">
           <q-img
             src="src/assets/videos.png"
             basic
@@ -63,7 +63,7 @@
         </q-card>
 
         <!-- Tarjeta de Streaming -->
-        <q-card v-on:click="irA('streaming')" class="q-pa-md cursor-pointer">
+        <q-card v-on:click="irA('ServicioStreaming')" class="q-pa-md cursor-pointer">
           <q-img
             src="src/assets/streaming.png"
             basic
