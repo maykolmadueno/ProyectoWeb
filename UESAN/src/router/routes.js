@@ -36,6 +36,11 @@ const routes = [
   },
 
   {
+    path: "/ServicioCC",
+    component: () => import("components/Servicios/CrearCircuitoCerrado.vue"),
+  },
+
+  {
     path: "/CreateEventos",
     component: () => import("components/CreateEventos.vue"),
   },
