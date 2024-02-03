@@ -27,7 +27,12 @@ const routes = [
   },
   {
     path: "/ServicioFotos",
-    component: () => import("components/CrearServicioFoto.vue"),
+    component: () => import("components/Servicios/CrearServicioFoto.vue"),
+  },
+
+  {
+    path: "/ServicioVideos",
+    component: () => import("components/Servicios/CrearServicioVideos.vue"),
   },
 
   {
