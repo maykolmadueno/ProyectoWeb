@@ -75,7 +75,7 @@
         </q-card>
 
         <!-- Tarjeta de Edición -->
-        <q-card v-on:click="irA('edicion')" class="q-pa-md cursor-pointer">
+        <q-card v-on:click="irA('ServicioEdicion')" class="q-pa-md cursor-pointer">
           <q-img
             src="src/assets/edicion.png"
             basic
@@ -88,7 +88,7 @@
 
         <!-- Tarjeta de Circuito Cerrado -->
         <q-card
-          v-on:click="irA('circuito-cerrado')"
+          v-on:click="irA('ServicioCC')"
           class="q-pa-md cursor-pointer"
         >
           <q-img
