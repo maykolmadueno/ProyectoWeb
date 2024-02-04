@@ -108,7 +108,7 @@
       <q-toolbar>
         <q-btn
           label="Ver Orden"
-          @click="handleButtonClick"
+          @click="irA('OrdenesServicios')"
           class="q-mt-md"
           size="lg"
           rounded

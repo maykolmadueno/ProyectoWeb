@@ -41,6 +41,11 @@ const routes = [
   },
 
   {
+    path: "/OrdenesServicios",
+    component: () => import("components/Orden/OrdenesServicios.vue"),
+  },
+
+  {
     path: "/CreateEventos",
     component: () => import("components/CreateEventos.vue"),
   },

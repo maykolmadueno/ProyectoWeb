@@ -51,6 +51,23 @@
 <script>
 import axios from "axios";
 export default {
+
+  created(){
+    const solicitudGuardada = localStorage.getItem("EventoCreado");
+    if (solicitudGuardada) {
+      // Parsear la solicitud guardada y asignarla al estado del componente
+      const e = JSON.parse(solicitudGuardada);
+      this.nombre = e.nombre;
+      this.descripcion = e.descripcion;
+      this.fechaEvento = e.fechaEvento;
+      this.horaInicio = e.horaInicio;
+      this.horaFin = e.horaFin;
+      this.Evento.lugar = e.lugar;
+      this.momentosImportantes = e.momentosImportantes;
+      this.cantidadInvitados = e.cantidadInvitados;
+    }
+  },
+
   data() {
     return {
       e : {
@@ -81,12 +98,10 @@ export default {
         cantidadInvitados: Number(this.e.cantidadInvitados),
         idUsuario: 1
       };
-      // Aquí puedes hacer lo que desees con el objeto evento, por ejemplo, enviarlo a la API
-      //Crear evento:
 
-      console.log("Evento enviado: "+ JSON.stringify(EventoInsertDTO))
+      localStorage.setItem("EventoCreado",JSON.stringify(EventoInsertDTO));
 
-
+     /*
       const url = "http://localhost:5158/api/Eventos/CreateEventos";
       axios
         .post(url,EventoInsertDTO)
@@ -97,21 +112,19 @@ export default {
         })
         .catch((error) => {
           console.log("Ocurrió un error " + error);
-          /*this.$q.notify({
+          this.$q.notify({
             message: "Ocurrió un error",
             color: "negative",
             position: "top",
             timeout: 3000,
-          });*/
+          });
         });
-
+    */
       //localStorage.setItem("EventoActual", this.evento.data);
       //localStorage.setItem("EventoActual", JSON.stringify(evento));
       // Redirige a la página de servicios
       this.limpiarFormulario();
       this.$router.push('/services');
-      // Limpia el formulario después de guardar
-
     },
     limpiarFormulario() {
       this.e.nombre = '';
