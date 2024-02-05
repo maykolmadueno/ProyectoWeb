@@ -62,7 +62,7 @@ export default {
       this.fechaEvento = e.fechaEvento;
       this.horaInicio = e.horaInicio;
       this.horaFin = e.horaFin;
-      this.Evento.lugar = e.lugar;
+      this.lugar = e.lugar;
       this.momentosImportantes = e.momentosImportantes;
       this.cantidadInvitados = e.cantidadInvitados;
     }
