@@ -58,7 +58,7 @@ body {
   padding: 0;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
-  height: 100%;
+  /* height: 100%; */
 }
 .navbar {
   display: flex;

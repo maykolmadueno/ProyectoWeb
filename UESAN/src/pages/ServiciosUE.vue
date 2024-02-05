@@ -59,7 +59,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 body {
   background-image: linear-gradient(0, black 50%, rgb(82, 25, 25));
   margin: 0;
@@ -73,6 +73,11 @@ body {
   display: flex;
   flex-direction: column;
   /* justify-content: space-between; */
+  background-image: linear-gradient(0, black 50%, rgb(82, 25, 25));
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .navbar {
   display: flex;
