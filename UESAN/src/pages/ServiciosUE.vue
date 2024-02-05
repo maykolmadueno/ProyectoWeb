@@ -1,128 +1,49 @@
 <template>
-  <q-layout view="lHh LpR lFf" class="fondo-negro">
-    <!-- Header -->
-    <q-header elevated class="fondo-negro css-header">
-      <q-toolbar>
-        <!-- Icono en la parte izquierda -->
-        <q-img
-          src="src/assets/logo2.png"
-          basic
-          style="width: 5%; height: auto"
-        />
-
-        <q-toolbar-title style="font-size: 40px; font-weight: bold"
-          >ESAN Labs</q-toolbar-title
-        >
-
-        <!-- Botones en la parte derecha -->
-        <q-btn flat label="Home" @click="irA('home')" />
-        <q-btn flat label="Mis Eventos" @click="irA('mis-eventos')" />
-        <q-btn flat label="Mi Multimedia" @click="irA('mi-multimedia')" />
-        <q-btn
-          flat
-          label="Nuevo Evento"
-          @click="nuevoEvento"
-          class="css-btn-ne"
-        />
-        <q-img
-          src="src/assets/persona.png"
-          basic
-          style="width: 3.5%; height: auto; margin-right: 40px"
-        />
-      </q-toolbar>
-    </q-header>
-
-    <!-- Contenido -->
-    <q-page-container class="css-contenido">
-      <div class="q-pa-md">
-        <h2>AGREGA LOS SERVICIOS QUE DESEAS</h2>
+  <div class="main-container">
+    <div class="navbar">
+      <div class="left-side">
+        <img src="src/assets/logo2.png" alt="" />
+        <p>ESAN Labs</p>
       </div>
-      <div class="q-gutter-md q-row justify-center" style="gap: 20px">
-        <!-- Tarjeta de Fotografías -->
-        <q-card v-on:click="irA('ServicioFotos')" class="q-pa-md cursor-pointer">
-          <q-img
-            src="src/assets/fotografias.png"
-            basic
-            style="width: 200px; height: auto; margin-bottom: 10px"
-          />
-          <q-card-section class="text-h6 text-center" style="color: black"
-            >FOTOGRAFIAS</q-card-section
-          >
-        </q-card>
-
-        <!-- Tarjeta de Videos -->
-        <q-card v-on:click="irA('ServicioVideos')" class="q-pa-md cursor-pointer">
-          <q-img
-            src="src/assets/videos.png"
-            basic
-            style="width: 200px; height: auto; margin-bottom: 10px"
-          />
-          <q-card-section class="text-h6 text-center" style="color: black"
-            >VIDEOS</q-card-section
-          >
-        </q-card>
-
-        <!-- Tarjeta de Streaming -->
-        <q-card v-on:click="irA('ServicioStreaming')" class="q-pa-md cursor-pointer">
-          <q-img
-            src="src/assets/streaming.png"
-            basic
-            style="width: 200px; height: auto; margin-bottom: 10px"
-          />
-          <q-card-section class="text-h6 text-center" style="color: black"
-            >STREAMING</q-card-section
-          >
-        </q-card>
-
-        <!-- Tarjeta de Edición -->
-        <q-card v-on:click="irA('ServicioEdicion')" class="q-pa-md cursor-pointer">
-          <q-img
-            src="src/assets/edicion.png"
-            basic
-            style="width: 200px; height: auto; margin-bottom: 10px"
-          />
-          <q-card-section class="text-h6 text-center" style="color: black"
-            >EDICION</q-card-section
-          >
-        </q-card>
-
-        <!-- Tarjeta de Circuito Cerrado -->
-        <q-card
-          v-on:click="irA('ServicioCC')"
-          class="q-pa-md cursor-pointer"
-        >
-          <q-img
-            src="src/assets/circuito_cerrado.png"
-            basic
-            style="width: 200px; height: auto; margin-bottom: 10px"
-          />
-          <q-card-section class="text-h6 text-center" style="color: black"
-            >CIRCUITO CERRADO</q-card-section
-          >
-        </q-card>
+      <div class="right-side">
+        <u>Home</u>
+        <u>Mis Eventos</u>
+        <u>Mi Multimedia</u>
+        <button>NUEVO EVENTO</button>
+        <img src="src/assets/persona.png" alt="" />
       </div>
-    </q-page-container>
+    </div>
+    <div class="content">
+      <p>AGREGA LOS SERVICIOS QUE DESEAS</p>
 
-    <!-- Footer -->
-    <q-footer elevated class="fondo-negro css-footer">
-      <q-toolbar>
-        <q-btn
-          label="Ver Orden"
-          @click="irA('OrdenesServicios')"
-          class="q-mt-md"
-          size="lg"
-          rounded
-          push
-          padding="15px 50px"
-          style="
-            border: 4px solid white;
-            font-weight: bold;
-            border-radius: 40px;
-          "
-        />
-      </q-toolbar>
-    </q-footer>
-  </q-layout>
+      <div class="services">
+        <div class="img-container photo-service">
+          <img src="src/assets/fotografias.png" alt="" />
+          <div>FOTOGRAFÍA</div>
+        </div>
+        <div class="img-container video-service">
+          <img src="src/assets/videos.png" alt="" />
+          <div>VIDEOS</div>
+        </div>
+        <div class="img-container streaming-service">
+          <img src="src/assets/streaming.png" alt="" />
+          <div>STREAMING</div>
+        </div>
+        <div class="img-container edition-service">
+          <img src="src/assets/edicion.png" alt="" />
+          <div>EDICIÓN</div>
+        </div>
+        <div class="img-container circuit-service">
+          <img src="src/assets/circuito_cerrado.png" alt="" />
+          <div>CIRCUITO CERRADO</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button>VER ORDEN</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -139,38 +60,132 @@ export default {
 </script>
 
 <style>
-.fondo-negro {
-  background-color: black;
+body {
+  background-image: linear-gradient(0, black 50%, rgb(82, 25, 25));
+  margin: 0;
   color: white;
-  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  /* height: 100%; */
 }
-.css-btn-ne {
-  border: 2.5px solid white;
-  border-radius: 20px;
-  font-weight: bold;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 18px;
-  margin-right: 25px;
-}
-.css-contenido {
-  text-align: center;
 
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+.main-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
 }
-.css-footer {
-  margin-left: 40%;
-  margin-bottom: 10%;
+.navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(177, 172, 172, 0.2);
+  background-color: black;
+  padding-top: 10px;
 }
-.cursor-pointer {
+
+/* left side of navbar */
+.left-side {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 60px;
+}
+.left-side p {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.left-side img {
+  width: 70px;
+  height: 60px;
+  vertical-align: middle;
+}
+
+/* right side of navbar */
+.right-side {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 20px;
+  margin-right: 60px;
+}
+.right-side u {
+  text-decoration: none;
   cursor: pointer;
 }
-.text-center {
-  text-align: center;
+
+.right-side img {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
 }
-.q-row {
+.right-side button {
+  color: white;
+  background-color: transparent;
+  padding: 10px 20px;
+  border: 3px solid white;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* content of the page */
+.content {
   display: flex;
-}
-.items-center {
+  flex-direction: column;
   align-items: center;
+  row-gap: 80px;
+  flex: 1;
+}
+.content p {
+  font-size: 40px;
+  font-weight: bold;
+  margin-top: 40px;
+}
+.services {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 40px;
+}
+.img-container {
+  border: none;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  padding-bottom: 10px;
+  font-weight: bold;
+}
+.img-container img {
+  width: 170px;
+  height: 170px;
+  margin: 10px;
+  object-fit: cover;
+}
+
+/* Footer*/
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 60px;
+}
+
+.footer button {
+  color: white;
+  background-color: transparent;
+  padding: 15px 45px;
+  border-radius: 30px;
+  border: 3px solid white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
 }
 </style>

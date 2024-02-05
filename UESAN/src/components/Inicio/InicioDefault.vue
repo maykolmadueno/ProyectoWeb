@@ -1,64 +1,90 @@
 <template>
-  <div class="home-container">
-    <!-- Parte izquierda (60%) -->
+  <div class="main-container">
     <div class="left-side">
-      <q-img
-        src="src/assets/logo1.png"
-        basic
-        style="width: 18%; height: auto"
-      />
-      ESAN Labs - Dirección Audiovisual
-      <h1>Capturamos lo que imaginas.</h1>
-      <!-- Contenido de la parte izquierda -->
-      <q-btn
-        label="¡Empecemos!"
-        @click="handleButtonClick"
-        class="q-mt-md"
-        size="lg"
-        rounded
-        push
-        padding="15px 50px"
-        style="border: 4px solid white"
-      />
+      <div class="image-container">
+        <img src="src/assets/logo1.png" alt="" />
+        <div>ESAN Labs - Dirección Audiovisual</div>
+      </div>
+      <div class="middle-container">Capturamos lo que imaginas.</div>
+      <div class="footer-container">
+        <button @click="handleButtonClick">¡Empecemos!</button>
+      </div>
     </div>
 
-    <!-- Parte derecha (40%) -->
     <div class="right-side">
-      <!-- Contenido de la parte derecha -->
-      <q-img src="src/assets/imagen1.png" basic style="height: 100%" />
+      <img src="src/assets/collage.png" alt="" />
     </div>
   </div>
 </template>
 
 <style scoped>
-h1 {
-  margin-top: 100px;
-  margin-bottom: 100px;
-}
-/* Estilos personalizados para las partes izquierda y derecha */
-.home-container {
+body {
+  font-family: Arial, Helvetica, sans-serif;
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  background-image: linear-gradient(0, black 80%, rgb(82, 25, 25));
+  color: white;
 }
 
+.main-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  background-image: linear-gradient(0, black 80%, rgb(82, 25, 25));
+  font-family: Arial, Helvetica, sans-serif;
+}
+/* Left side of the page */
 .left-side {
-  color: WHITE;
-  width: auto;
-  height: auto;
-  flex: 0 0 46%;
-  padding: 0px;
-  margin-top: 60px;
-  margin-left: 50px;
-  font-size: 27px;
-  font-family: arial;
-  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
 }
-
+.image-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 20px;
+  margin-left: 60px;
+  margin-top: 60px;
+  color: white;
+  font-size: 24px;
+}
+.image-container img {
+  width: 80px;
+}
+.image-container div {
+  font-weight: bold;
+}
+.middle-container {
+  font-size: 70px;
+  font-weight: bold;
+  margin-left: 60px;
+  color: white;
+}
+.footer-container button {
+  color: white;
+  background-color: transparent;
+  border: 4px solid white;
+  border-radius: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 40px;
+  margin-left: 60px;
+  margin-bottom: 100px;
+  cursor: pointer;
+}
+/* Right side of the page */
 .right-side {
-  flex: 0 0 50%;
-  padding: 0px;
-  width: auto;
-  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.right-side img {
+  flex: 1;
+  object-fit: cover;
+  height: 100vh;
 }
 </style>
 
@@ -68,7 +94,7 @@ export default {
     handleButtonClick() {
       // Función que se ejecuta al hacer clic en el botón
       console.log("Botón clicado");
-      this.$router.push('/home');
+      this.$router.push("/login");
     },
   },
 };
