@@ -75,22 +75,22 @@
 
 
 <script>
+import axios from "axios";
 export default {
 
   created() {
     //AQUI TRAIGO LOS DATOS DEL EVENTO:
     const solicitudGuardada = localStorage.getItem("EventoCreado");
     if (solicitudGuardada) {
-      // Parsear la solicitud guardada y asignarla al estado del componente
-      const e = JSON.parse(solicitudGuardada);
-      this.Evento.nombre = e.nombre;
+      this.Evento = JSON.parse(solicitudGuardada);
+      /*this.Evento.nombre = e.nombre;
       this.Evento.descripcion = e.descripcion;
       this.Evento.fechaEvento = e.fechaEvento;
       this.Evento.horaInicio = e.horaInicio;
       this.Evento.horaFin = e.horaFin;
       this.Evento.lugar = e.lugar;
       this.Evento.momentosImportantes = e.momentosImportantes;
-      this.Evento.cantidadInvitados = e.cantidadInvitados;
+      this.Evento.cantidadInvitados = e.cantidadInvitados;*/
     }
 
     //Aqui del servicio foto:
@@ -98,7 +98,6 @@ export default {
   const solicitudesGuardadas = localStorage.getItem('FotosSolicitadas');
   if (solicitudesGuardadas) {
     try {
-      // Intentar parsear la cadena JSON y asignarla al array del componente
       this.fotos = JSON.parse(solicitudesGuardadas);
     } catch (error) {
       this.fotos = [];
@@ -109,7 +108,6 @@ export default {
   const v = localStorage.getItem('VideosSolicitados');
   if (v) {
     try {
-      // Intentar parsear la cadena JSON y asignarla al array del componente
       this.videos = JSON.parse(v);
     } catch (error) {
       this.videos = [];
@@ -117,30 +115,17 @@ export default {
   }
 
   //CIRCUITO CERRADO:
-
   const c = localStorage.getItem("CCSolicitud");
-
     if (c) {
-
       this.cc = JSON.parse(c);
     }
-
 
 
   },
 
   data() {
     return {
-      Evento : {
-        nombre: '',
-        descripcion: '',
-        fechaEvento: '',
-        horaInicio: '',
-        horaFin: '',
-        lugar: '',
-        momentosImportantes: '',
-        cantidadInvitados: 0,
-      },
+      Evento : null,
       fotos : [],
       videos: [],
       cc : null,
@@ -152,9 +137,147 @@ export default {
       this.$router.push('/services');
     },
 
-    GuardarSolicitudes(){
-      //AQUI VA LA APLICACIÓN DE LOS ENDPOINTS
+    async GuardarSolicitudes(){
+      let idEvento = await this.CrearEvento();
+      console.log("ID DEL EVENTO CREADO : " + idEvento);
+      await this.CrearServiciosFotos(idEvento);
+      await this.crearServicioVideos(idEvento);
+      await this.CrearServicioCC(idEvento);
+
     },
+
+    async CrearEvento(){
+      let url = "http://localhost:5158/api/Eventos/CreateEventos";
+      return await this.FuncionEP(url,this.Evento,true);
+    },
+
+    async CrearServiciosFotos(ide){
+      if(this.fotos.length > 0){
+        //Primero creo el objetoservicio
+        const servicio = {
+          idEvento : ide,
+          nombre : "Fotos",
+          tipo : "foto"
+        }
+        //luego llamo a la api servicio.
+        let url = "http://localhost:5158/api/Servicio/CreateServicio";
+        let idServicios = await this.FuncionEP(url,servicio,true);
+        console.log("ID DEL SERVICIO  EN FOTO CREADO : " +idServicios)
+        //Luego de crear el servicio fotos, puedo crear los elementos individuales.
+        url = "http://localhost:5158/api/ServicioFotos/CreateServicioFotos";
+        for (const element of this.fotos) {
+
+        let numero = element.cantidad;
+        let cadena = numero.toString();
+        let f = {
+          idServicio: idServicios,
+          cantidadFotos: cadena,
+          tipoFoto: element.tipo,
+          pesonaObjetivo: element.persona,
+          canales: element.canales,
+          link: element.linkDestino
+        };
+
+        console.log("Objeto foto  enviado : " + JSON.stringify(f))
+          // Ahora creo las fotos individuales y espero su resolución antes de continuar con la siguiente iteración
+          await this.FuncionEP(url, f, false);
+        }
+      }
+    },
+
+    async crearServicioVideos(ide){
+      if(this.videos.length > 0){
+        //Primero creo el objetoservicio
+        const servicio = {
+          idEvento : ide,
+          nombre : "Videos",
+          tipo : "video"
+        }
+        //luego llamo a la api servicio.
+        const url = "http://localhost:5158/api/Servicio/CreateServicio";
+        let idServicios = await this.FuncionEP(url,servicio,true);
+        //Luego de crear el servicio videos, puedo crear los elementos individuales.
+        let urlv = "http://localhost:5158/api/Video/CreateVideo";
+        for (const element of this.videos) {
+          let v = {
+            nombre: element.nombre,
+            link: element.link,
+            nombreObjetivo: element.nombreObjetivo,
+            lugarFilmacion: element.lugarFilmacion,
+            idServicio: idServicios,
+          };
+          // Ahora creo los videos individuales:
+          await this.FuncionEP(urlv, v, false);
+        }
+      }
+    },
+
+    async CrearServicioCC(ide){
+      if(this.cc != null){
+        const servicio = {
+          idEvento : ide,
+          nombre : "CircuitoCerrado",
+          tipo : "CircuitoCerrado"
+        }
+        //luego llamo a la api servicio.
+        const url = "http://localhost:5158/api/Servicio/CreateServicio";
+        let idServicios = await this.FuncionEP(url, servicio, true);
+        //Creo el circuito cerrado:
+
+        let array = this.cc.angulos;
+        let nAngulos = this.cc.numeroAngulos;
+        let cadena = array.join("-");
+        let ang = nAngulos.toString();
+
+        const circuito = {
+          idServicio : idServicios,
+          guardar: this.cc.guardar,
+          link: this.cc.link,
+          numeroCamaras: this.cc.numeroCamaras,
+          numeroAngulos: ang,
+          angulos: cadena,
+        }
+
+        console.log("Objeto Circuito Cerrado enviado : " + JSON.stringify(circuito))
+        const urls = "http://localhost:5158/api/CircuitoCerrado/CreateCircuitoCeraddo";
+        await this.FuncionEP(urls,circuito,false);
+      }
+    },
+
+    async FuncionEP(url, objeto, retorna){
+
+      try{
+        const response = await axios.post(url,objeto);
+        console.log("La respuesta es: ", response.data);
+        if (retorna) {
+          return response.data;
+        }
+      }catch{
+        console.log("Ocurrió un error: ");
+      }
+
+
+      /*
+      axios
+        .post(url,objeto)
+        .then((response) => {
+          console.log("La respuesta es:  "+ response.data);
+          if(retorna){
+            return response.data;
+          }
+        })
+        .catch((error) => {
+          console.log("Ocurrió un error " + error);
+          this.$q.notify({
+            message: "Ocurrió un error",
+            color: "negative",
+            position: "top",
+            timeout: 3000,
+
+          });
+        });
+        */
+    }
 
   },
 };
