@@ -1,135 +1,137 @@
 <template>
-  <div class="home-container">
-    <!-- Parte izquierda (60%) -->
+  <div class="main-container">
     <div class="left-side">
-      <h2>Inicia sesión con tu cuenta institucional.</h2>
-      <!-- Contenido de la parte izquierda -->
-      <p>debe ser de dominio @esan.edu.pe</p>
+      <div>Inicia sesión con tu cuenta institucional.</div>
+      <div>debe ser de dominio @esan.edu.pe</div>
     </div>
 
-    <!-- Parte derecha (40%) -->
     <div class="right-side">
-      <!-- Contenido de la parte derecha -->
-      <div class="right-side-mail">
-        <q-img
-          src="src/assets/persona.png"
-          basic
-          style="width: 14%; height: auto; margin-right: 5px"
-        />
-        <q-input
-          type="text"
-          v-model="input1"
-          class="q-mt-md"
-          size="lg"
-          style="
-            border: 4px solid white;
-            border-radius: 40px;
-            margin-right: 50px;
-            width: 80%;
-            padding: 4px;
-            color: white;
-            text-align: center;
-          "
-          label="example@esan.edu.pe"
-          label-color="white"
-        />
+      <div class="mail-container">
+        <img src="src/assets/persona.png" alt="" />
+        <input type="text" placeholder="example.esan.edu.pe" />
       </div>
-      <div class="right-side-password">
-        <q-img
-          src="src/assets/candado.png"
-          basic
-          style="width: 12%; height: auto"
-        />
-        <q-input
-          type="password"
-          v-model="input2"
-          class="q-mt-md"
-          size="lg"
-          style="
-            border: 4px solid white;
-            border-radius: 40px;
-            margin-right: 50px;
-            width: 80%;
-            padding: 4px;
-          "
-          label="Password"
-          label-color="white"
-        />
+      <div class="pass-container">
+        <img src="src/assets/candado.png" alt="" />
+        <input type="password" placeholder="password" />
       </div>
-      <!--<div class="right-side-button">-->
-      <q-btn
-        label="Iniciar Sesión"
-        @click="handleButtonClick"
-        class="q-mt-md"
-        size="md"
-        rounded
-        push
-        padding="2px 20px"
-        style="
-          border: 5px solid white;
-          font-weight: bold;
-          font-family: 'Courier New', Courier, monospace;
-          font-size: 18px;
-          margin-left: 35%;
-        "
-      />
-      <!--</div>-->
+      <div class="button-container">
+        <button @click="handleButtonClick">INICIAR SESIÓN</button>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-h2 {
-  padding-right: 40px;
-  padding-left: 40px;
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  color: white;
+  background-image: url("../images/fondo-esan.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+.main-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  color: white;
+  background-image: url("src/assets/fondo-esan.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+/* Left side of the page */
+.left-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 60px;
+  row-gap: 20px;
+  margin-bottom: 60px;
+}
+.left-side :first-child {
+  font-size: 60px;
   font-weight: bold;
 }
-p {
-  padding-right: 40px;
-  padding-left: 40px;
+.left-side :last-child {
+  font-size: 20px;
 }
-/* Estilos personalizados para las partes izquierda y derecha */
-.home-container {
-  display: flex;
-  height: 100vh;
-  align-items: center;
-  background-color: transparent;
-}
-
-.left-side {
-  color: white;
-  width: auto;
-  height: auto;
-  /* flex: 0 0 46%; */
-  flex: 0 0 50%;
-  padding-bottom: 50px;
-  margin-left: 50px;
-  /* margin-right: 50px; */
-  font-size: 27px;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: black;
-  /* font-weight: bold; */
-  margin-bottom: 100px;
-}
-
+/* Right side of the page */
 .right-side {
-  flex: 0 0 40%;
-  font-family: arial;
-  color: white;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  align-items: center;
+}
+.mail-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 10px;
+}
+.mail-container img {
+  width: 50px;
+  height: 50px;
+  vertical-align: middle;
+}
+.mail-container input {
+  padding: 15px 20px;
+  width: 280px;
+  border: 2px solid white;
+  border-radius: 40px;
   background-color: transparent;
-  margin-bottom: 80px;
+  text-align: center;
+  color: white;
 }
-.right-side-mail {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 10px;
+.mail-container input::placeholder {
+  font-size: 16px;
 }
-.right-side-password {
+.pass-container {
   display: flex;
-  gap: 20px;
+  flex-direction: row;
   align-items: center;
-  margin-bottom: 20px;
+  column-gap: 10px;
+}
+.pass-container img {
+  width: 40px;
+  height: 50px;
+  vertical-align: middle;
+}
+.pass-container input {
+  padding: 15px 20px;
+  width: 280px;
+  border: 2px solid white;
+  border-radius: 40px;
+  background-color: transparent;
+  text-align: center;
+  color: white;
+}
+.pass-container input::placeholder {
+  font-size: 16px;
+}
+.button-container button {
+  border: 4px solid white;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 40px;
+  background-color: transparent;
+  color: white;
+  margin-left: 45px;
+  margin-top: 15px;
+  cursor: pointer;
 }
 </style>
 
@@ -139,6 +141,7 @@ export default {
     handleButtonClick() {
       // Función que se ejecuta al hacer clic en el botón
       console.log("Botón clicado");
+      this.$router.push("/home");
     },
   },
 };

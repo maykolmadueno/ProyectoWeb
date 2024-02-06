@@ -1,60 +1,28 @@
 <template>
-  <q-layout view="lHh LpR lFf" class="fondo-negro">
-    <!-- Header -->
-    <q-header elevated class="fondo-negro css-header">
-      <q-toolbar>
-        <!-- Icono en la parte izquierda -->
-        <q-img
-          src="src/assets/logo2.png"
-          basic
-          style="width: 5%; height: auto"
-        />
-
-        <q-toolbar-title style="font-size: 40px; font-weight: bold"
-          >ESAN Labs</q-toolbar-title
-        >
-
-        <!-- Botones en la parte derecha -->
-        <q-btn flat label="Home" @click="irA('home')" />
-        <q-btn flat label="Mis Eventos" @click="irA('mis-eventos')" />
-        <q-btn flat label="Mi Multimedia" @click="irA('mi-multimedia')" />
-        <q-btn
-          flat
-          label="Nuevo Evento"
-          @click="nuevoEvento"
-          class="css-btn-ne"
-        />
-        <!-- <q-btn flat icon="icono-derecha" /> -->
-        <q-img
-          src="src/assets/persona.png"
-          basic
-          style="width: 3.5%; height: auto; margin-right: 40px"
-        />
-      </q-toolbar>
-    </q-header>
-
-    <!-- Contenido -->
-    <q-page-container class="css-contenido">
-      <div class="q-pa-md">
-        <h2 style="font-weight: bold">DIVISIÓN AUDIOVISUAL DE ESAN LABS</h2>
-        <p style="font-size: 40px">Dispuestos. Puntuales. Profesionales.</p>
+  <div class="main-container">
+    <div class="navbar">
+      <div class="left-side">
+        <img src="src/assets/logo2.png" alt="" />
+        <p>ESAN Labs</p>
       </div>
-    </q-page-container>
+      <div class="right-side">
+        <u>Home</u>
+        <u>Mis Eventos</u>
+        <u>Mi Multimedia</u>
+        <button @click="nuevoEvento">NUEVO EVENTO</button>
+        <img src="src/assets/persona.png" alt="" />
+      </div>
+    </div>
+    <div class="content">
+      <div>DIVISIÓN AUDIOVISUAL DE ESAN LABS</div>
+      <div>Dispuestos. Puntuales. Profesionales.</div>
+    </div>
 
-    <!-- Footer -->
-    <q-footer elevated class="fondo-negro css-footer">
-      <q-toolbar>
-        <h4>
-          SOLICITA LA COBERTURA AUDIOVISUAL DE UN EVENTO ¡EN TAN SOLO 3 PASOS!
-        </h4>
-      </q-toolbar>
-    </q-footer>
-
-    <!-- <div class="css-footer">
-      <h4>SOLICITA LA COBERTURA AUDIOVISUAL DE UN EVENTO</h4>
-      <h4>¡EN TAN SOLO 3 PASOS!</h4>
-    </div> -->
-  </q-layout>
+    <div class="footer">
+      <div>SOLICITA LA COBERTURA AUDIOVISUAL DE UN EVENTO</div>
+      <div>¡EN TAN SOLO <span>3 PASOS!</span></div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -64,36 +32,117 @@ export default {
       this.$router.push({ path: ruta });
     },
     nuevoEvento() {
-      this.$router.push('/CreateEventos');
+      this.$router.push("/services");
       // Lógica para el botón Nuevo Evento
     },
   },
 };
 </script>
 
-<style>
-.fondo-negro {
-  background-color: black;
+<style scoped>
+body {
+  background-image: linear-gradient(black 50%, rgb(82, 25, 25));
+  margin: 0;
   color: white;
-  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
 }
 
-.css-btn-ne {
-  border: 2.5px solid white;
+.main-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  background-image: linear-gradient(black 50%, rgb(82, 25, 25));
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  /* height: 100%; */
+}
+.navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(177, 172, 172, 0.2);
+  margin-top: 10px;
+}
+
+/* left side of navbar */
+.left-side {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 60px;
+}
+.left-side p {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.left-side img {
+  width: 70px;
+  height: 60px;
+  vertical-align: middle;
+}
+
+/* right side of navbar */
+.right-side {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 20px;
+  margin-right: 60px;
+}
+.right-side u {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.right-side img {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+}
+.right-side button {
+  color: white;
+  background-color: transparent;
+  padding: 10px 20px;
+  border: 3px solid white;
   border-radius: 20px;
   font-weight: bold;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 18px;
-  margin-right: 25px;
+  cursor: pointer;
 }
 
-.css-contenido {
-  text-align: center;
+/* content of the page */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+  margin-top: 20px;
+  flex: 1;
 }
-.css-footer {
-  text-align: center;
-  padding-right: 25vh;
-  padding-left: 25vh;
+.content :first-child {
+  font-size: 40px;
   font-weight: bold;
+}
+.content :last-child {
+  font-size: 30px;
+}
+/* Footer*/
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 10px;
+  margin-bottom: 40px;
+  font-size: 20px;
+}
+.footer span {
+  text-decoration: underline;
 }
 </style>
