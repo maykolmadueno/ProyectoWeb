@@ -8,18 +8,64 @@
     <div class="right-side">
       <div class="mail-container">
         <img src="src/assets/persona.png" alt="" />
-        <input type="text" placeholder="example.esan.edu.pe" />
+        <input v-model="email" type="text" placeholder="example.esan.edu.pe" />
       </div>
       <div class="pass-container">
         <img src="src/assets/candado.png" alt="" />
-        <input type="password" placeholder="password" />
+        <input v-model="password" type="password" placeholder="password" />
       </div>
       <div class="button-container">
-        <button @click="handleButtonClick">INICIAR SESIÓN</button>
+        <button @click="login">INICIAR SESIÓN</button>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+  import axios from 'axios';
+  export default{
+    data(){
+      return{
+        email : '',
+        password : ''
+      }
+    },
+
+    async login(){
+      let url = "http://localhost:5158/api/Usuario/SignIn";
+      try{
+        const response = await axios.post(url,{correo:this.email,contra : this.password});
+        const usuario = {
+          idUsuario : response.data.idUsuario,
+          tipo : response.data.tipo
+        }
+        localStorage.setItem("usuarioActual",JSON.stringify(usuario));
+        this.$router.push('/');
+      }catch(error){
+        console.log("Ocurrio un error:" + error)
+        if (error.response && error.response.status === 404) {
+          this.$q.notify({
+            message: "Correo electrónico o contraseña incorrectos. Por favor, inténtalo de nuevo.",
+            color: "negative",
+            position: "top",
+            timeout: 3000
+          });
+        } else {
+          this.$q.notify({
+            message: "Ocurrió un error. Por favor, inténtalo de nuevo más tarde.",
+            color: "negative",
+            position: "top",
+            timeout: 3000
+          });
+        }
+      }
+    }
+  }
+
+
+
+</script>
+
 
 <style scoped>
 body {
