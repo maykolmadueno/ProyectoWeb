@@ -62,6 +62,8 @@
 import CambiarContrasenaModal from 'src/components/Modal/ModalNuevaContra.vue';
 import ModalC from 'src/components/Modal/ModalC.vue';
 import axios from "axios";
+import emailjs from 'emailjs-com';
+
 
 export default {
 
@@ -171,12 +173,21 @@ export default {
           correo : this.usuarioM.correo,
           nombre : this.usuarioM.nombre,
           tipo : 'normal',
-          estado : this.this.usuarioM.estado,
+          estado : 'Activo',
           contra : this.nuevaContra,
         }
       this.mostrarModalModificar = false;
       const response = await axios.put("http://localhost:5158/api/Usuario",u);
       if(response.data === true){
+
+        const datosCorreo = {
+        from_name: 'AudioVusuales',
+        to_name: this.usuarioM.nombre, // Nombre del destinatario
+        correo: this.usuarioM.correo,
+        password: this.nuevaContra, // Incluimos la nueva contraseña en los datos del correo
+        // Puedes agregar más datos si es necesario
+        };
+      this.enviarCorreo(datosCorreo);
         this.$q.notify({
             message: "La contraseña se cambió con éxito",
             color: "positive",
@@ -188,6 +199,21 @@ export default {
     } catch (error) {
       console.error('Error al cambiar la contraseña del usuario:', error);
     }
+    },
+
+    enviarCorreo(datos) {
+      // Definimos los IDs del servicio y la plantilla de correo
+      const serviceID = 'default_service';
+      const templateID = 'template_73ccukn';
+
+      // Enviamos los datos a través de EmailJS
+      emailjs.send(serviceID, templateID, datos)
+        .then(() => {
+          console.log('¡Correo enviado con éxito!');
+        })
+        .catch((error) => {
+          console.error('Error al enviar el correo:', error);
+        });
     },
 
     confirmarCambioFinal(nuevaC){
