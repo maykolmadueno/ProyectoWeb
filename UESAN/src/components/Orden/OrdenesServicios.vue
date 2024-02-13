@@ -83,14 +83,7 @@ export default {
     const solicitudGuardada = localStorage.getItem("EventoCreado");
     if (solicitudGuardada) {
       this.Evento = JSON.parse(solicitudGuardada);
-      /*this.Evento.nombre = e.nombre;
-      this.Evento.descripcion = e.descripcion;
-      this.Evento.fechaEvento = e.fechaEvento;
-      this.Evento.horaInicio = e.horaInicio;
-      this.Evento.horaFin = e.horaFin;
-      this.Evento.lugar = e.lugar;
-      this.Evento.momentosImportantes = e.momentosImportantes;
-      this.Evento.cantidadInvitados = e.cantidadInvitados;*/
+
     }
 
     //Aqui del servicio foto:
@@ -139,11 +132,16 @@ export default {
 
     async GuardarSolicitudes(){
       let idEvento = await this.CrearEvento();
-      console.log("ID DEL EVENTO CREADO : " + idEvento);
       await this.CrearServiciosFotos(idEvento);
       await this.crearServicioVideos(idEvento);
       await this.CrearServicioCC(idEvento);
 
+      /*
+      localStorage.removeItem('EventoCreado');
+      localStorage.removeItem('FotosSolicitadas');
+      localStorage.removeItem('VideosSolicitados');
+      localStorage.removeItem('CCSolicitud');
+      */
     },
 
     async CrearEvento(){
@@ -162,7 +160,6 @@ export default {
         //luego llamo a la api servicio.
         let url = "http://localhost:5158/api/Servicio/CreateServicio";
         let idServicios = await this.FuncionEP(url,servicio,true);
-        console.log("ID DEL SERVICIO  EN FOTO CREADO : " +idServicios)
         //Luego de crear el servicio fotos, puedo crear los elementos individuales.
         url = "http://localhost:5158/api/ServicioFotos/CreateServicioFotos";
         for (const element of this.fotos) {
@@ -177,8 +174,6 @@ export default {
           canales: element.canales,
           link: element.linkDestino
         };
-
-        console.log("Objeto foto  enviado : " + JSON.stringify(f))
           // Ahora creo las fotos individuales y espero su resolución antes de continuar con la siguiente iteración
           await this.FuncionEP(url, f, false);
         }
@@ -237,8 +232,6 @@ export default {
           numeroAngulos: ang,
           angulos: cadena,
         }
-
-        console.log("Objeto Circuito Cerrado enviado : " + JSON.stringify(circuito))
         const urls = "http://localhost:5158/api/CircuitoCerrado/CreateCircuitoCeraddo";
         await this.FuncionEP(urls,circuito,false);
       }

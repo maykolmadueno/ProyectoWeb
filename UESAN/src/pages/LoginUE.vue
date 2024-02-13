@@ -40,7 +40,7 @@
           tipo : response.data.tipo
         }
         localStorage.setItem("usuarioActual",JSON.stringify(usuario));
-        this.$router.push('/');
+        this.$router.push('/Home');
       }catch(error){
         console.log("Ocurrio un error:" + error)
         if (error.response && error.response.status === 404) {
@@ -181,14 +181,4 @@ body {
 }
 </style>
 
-<script>
-export default {
-  methods: {
-    handleButtonClick() {
-      // Función que se ejecuta al hacer clic en el botón
-      console.log("Botón clicado");
-      this.$router.push("/home");
-    },
-  },
-};
-</script>
+

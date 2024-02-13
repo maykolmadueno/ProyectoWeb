@@ -49,6 +49,16 @@ const routes = [
     path: "/CreateEventos",
     component: () => import("components/CreateEventos.vue"),
   },
+
+  {
+    path: "/AdminPrincipal",
+    component: () => import("pages/PrincipalAdmin.vue"),
+  },
+
+  {
+    path: "/login",
+    component: () => import("pages/PrincipalAdmin.vue"),
+  },
 ];
 
 export default routes;

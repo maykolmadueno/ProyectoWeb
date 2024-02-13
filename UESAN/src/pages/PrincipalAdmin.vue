@@ -6,57 +6,62 @@
         <p>ESAN Labs</p>
       </div>
       <div class="right-side">
-        <U v-if = "mostrar">Administrador</U>
-        <u>Home</u>
-        <u>Mis Eventos</u>
-        <u>Mi Multimedia</u>
-        <button @click="nuevoEvento">NUEVO EVENTO</button>
+        <button @click="VistaUsuarios" :disabled="!usuariosButtonEnabled">Gestión Usuarios</button>
+        <button @click="VistaEventos" :disabled="!eventosButtonEnabled">Gestión Eventos</button>
+        <button @click="salir">Salir</button>
         <img src="src/assets/persona.png" alt="" />
       </div>
     </div>
     <div class="content">
-      <div>DIVISIÓN AUDIOVISUAL DE ESAN LABS</div>
-      <div>Dispuestos. Puntuales. Profesionales.</div>
-    </div>
-
-    <div class="footer">
-      <div>SOLICITA LA COBERTURA AUDIOVISUAL DE UN EVENTO</div>
-      <div>¡EN TAN SOLO <span>3 PASOS!</span></div>
+      <component :is="currentComponent"></component>
     </div>
   </div>
 </template>
 
 <script>
+import Usuarios from 'components/Vistas/UsuariosVista.vue';
+//import Eventos from '@/components/Eventos.vue';
+
 export default {
+
+  components: {
+    Usuarios,
+    //Eventos
+  },
+
+  data() {
+    return {
+      currentComponent: null,
+      usuariosButtonEnabled: true,
+      eventosButtonEnabled: true
+    };
+  },
+
   methods: {
 
-    created() {
-      const u = localStorage.getItem('usuarioActual');
-      if (u) {
-        try {
-          this.usuario = JSON.parse(u);
-          if(this.usuario.tipo == "admin"){this.mostrar = true;}
-        } catch (error) {
-          this.usuario = null;
-        }
+
+    VistaUsuarios(){
+      if (this.usuariosButtonEnabled) {
+        // Cambia el componente actual a Usuarios.vue
+        this.currentComponent = 'Usuarios';
+        this.usuariosButtonEnabled = false; // Deshabilita el botón
+        this.eventosButtonEnabled = true; // Habilita el otro botón
       }
     },
 
-    data(){
-      return{
-        usuario : null,
-        mostrar : false,
+    VistaEventos(){
+      if (this.eventosButtonEnabled) {
+        // Cambia el componente actual a Eventos.vue
+        this.currentComponent = 'Eventos';
+        this.eventosButtonEnabled = false; // Deshabilita el botón
+        this.usuariosButtonEnabled = true; // Habilita el otro botón
       }
     },
 
-    irA(ruta) {
-      this.$router.push({ path: ruta });
-    },
-    nuevoEvento() {
-      this.$router.push("/services");
-      // Lógica para el botón Nuevo Evento
+    salir(){
+      this.$router.push('/Home');
+    }
 
-    },
   },
 };
 </script>
@@ -168,3 +173,4 @@ body {
   text-decoration: underline;
 }
 </style>
+
