@@ -16,12 +16,12 @@
     <div class="content">
       <p>AGREGA LOS SERVICIOS QUE DESEAS</p>
 
-      <div class="services">
-        <div class="img-container photo-service">
+      <div  class="services">
+        <div class="img-container photo-service" @click="irA('ServicioFotos')">
           <img src="src/assets/fotografias.png" alt="" />
           <div>FOTOGRAFÍA</div>
         </div>
-        <div class="img-container video-service">
+        <div @click="irA('ServicioVideos')" class="img-container video-service">
           <img src="src/assets/videos.png" alt="" />
           <div>VIDEOS</div>
         </div>
@@ -33,7 +33,7 @@
           <img src="src/assets/edicion.png" alt="" />
           <div>EDICIÓN</div>
         </div>
-        <div class="img-container circuit-service">
+        <div @click="irA('ServicioCC')" class="img-container circuit-service">
           <img src="src/assets/circuito_cerrado.png" alt="" />
           <div>CIRCUITO CERRADO</div>
         </div>
@@ -41,12 +41,14 @@
     </div>
 
     <div class="footer">
-      <button>VER ORDEN</button>
+      <button @click="irA('OrdenesServicios')">VER ORDEN</button>
     </div>
   </div>
 </template>
 
 <script>
+import OrdenesServicios from 'src/components/Orden/OrdenesServicios.vue';
+
 export default {
   methods: {
     irA(ruta) {

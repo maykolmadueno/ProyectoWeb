@@ -53,7 +53,7 @@ export default {
       this.$router.push({ path: ruta });
     },
     nuevoEvento() {
-      this.$router.push("/services");
+      this.$router.push("/CreateEventos");
       // Lógica para el botón Nuevo Evento
 
     },

@@ -49,10 +49,16 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
 
   created(){
+
+    const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
+    if(usuario){
+      this.idUsuario = usuario.idUsuario;
+    }
+
+
     const solicitudGuardada = localStorage.getItem("EventoCreado");
     if (solicitudGuardada) {
       // Parsear la solicitud guardada y asignarla al estado del componente
@@ -79,6 +85,7 @@ export default {
         lugar: '',
         momentosImportantes: '',
         cantidadInvitados: 0,
+        idUsuario : null
       }
 
     };
@@ -96,7 +103,7 @@ export default {
         fechaCreacion:  new Date().toISOString(),
         momentosImportantes: this.e.momentosImportantes,
         cantidadInvitados: Number(this.e.cantidadInvitados),
-        idUsuario: 1
+        idUsuario:1
       };
 
       localStorage.setItem("EventoCreado",JSON.stringify(EventoInsertDTO));

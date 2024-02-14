@@ -9,7 +9,6 @@
         <option value="Activo              " >Activo</option>
         <option value="inactivo            ">Eliminado</option>
       </select>
-      <button @click="aplicarFiltro">Filtrar</button>
       <button @click="limpiarFiltro">Limpiar</button>
     </div>
     <h2>Usuarios</h2>
@@ -98,6 +97,13 @@ export default {
         this.usuariosFiltrados = [...this.usuarios];
       } catch (error) {
         console.error('Error:', error);
+        this.$q.notify({
+            message: "Error al traer los usuarios...",
+            color: "positive",
+            position: "top",
+            timeout: 3000,
+
+          });
       }
     },
 
@@ -179,7 +185,6 @@ export default {
       this.mostrarModalModificar = false;
       const response = await axios.put("http://localhost:5158/api/Usuario",u);
       if(response.data === true){
-
         const datosCorreo = {
         from_name: 'AudioVusuales',
         to_name: this.usuarioM.nombre, // Nombre del destinatario
@@ -234,7 +239,7 @@ export default {
 }
 
 table {
-  width: 100%;
+  width: 50%;
   border-collapse: collapse;
 }
 

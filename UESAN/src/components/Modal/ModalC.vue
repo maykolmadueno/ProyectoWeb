@@ -2,7 +2,7 @@
 <template>
   <div class="modal" v-if="mostrar">
     <div class="modal-content">
-      <slot></slot>
+      <p class="question">¿Desea eliminar a este usuario?</p>
       <div class="modal-actions">
         <button @click="confirmar">Confirmar</button>
         <button @click="cancelar">Cancelar</button>
@@ -65,5 +65,9 @@ export default {
 
 button {
   margin-left: 10px;
+}
+
+.question {
+  color: black; /* Cambia el color del texto a negro */
 }
 </style>

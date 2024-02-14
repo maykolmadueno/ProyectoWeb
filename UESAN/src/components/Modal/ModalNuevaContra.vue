@@ -2,7 +2,7 @@
 <template>
   <div class="modal" v-if="mostrar">
     <div class="modal-content">
-      <h2>Cambiar contraseña</h2>
+      <p class ="question">¿Cambiar contraseña del Usuario?</p>
       <input type="password" v-model="nuevaContrasena" placeholder="Nueva contraseña">
       <div class="modal-actions">
         <button @click="confirmar">Confirmar</button>
@@ -72,4 +72,9 @@ export default {
 button {
   margin-left: 10px;
 }
+
+.question {
+  color: black; /* Cambia el color del texto a negro */
+}
+
 </style>
