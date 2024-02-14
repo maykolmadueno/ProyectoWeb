@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Solicitud de Servicio de Guarda</h1>
+    <h1>Solicitud de Servicio de Circuito Cerrado</h1>
 
     <div v-if="mostrarFormulario">
       <!-- Formulario -->
