@@ -20,13 +20,13 @@
 
 <script>
 import Usuarios from 'components/Vistas/UsuariosVista.vue';
-//import Eventos from '@/components/Eventos.vue';
+import Eventos from 'components/Vistas/EventosVista.vue';
 
 export default {
 
   components: {
     Usuarios,
-    //Eventos
+    Eventos
   },
 
   data() {
@@ -42,7 +42,6 @@ export default {
 
     VistaUsuarios(){
       if (this.usuariosButtonEnabled) {
-        // Cambia el componente actual a Usuarios.vue
         this.currentComponent = 'Usuarios';
         this.usuariosButtonEnabled = false; // Deshabilita el botón
         this.eventosButtonEnabled = true; // Habilita el otro botón
@@ -51,7 +50,6 @@ export default {
 
     VistaEventos(){
       if (this.eventosButtonEnabled) {
-        // Cambia el componente actual a Eventos.vue
         this.currentComponent = 'Eventos';
         this.eventosButtonEnabled = false; // Deshabilita el botón
         this.usuariosButtonEnabled = true; // Habilita el otro botón
