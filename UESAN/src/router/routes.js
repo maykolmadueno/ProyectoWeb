@@ -56,6 +56,11 @@ const routes = [
   },
 
   {
+    path: "/detalleEventoVistaAdmin",
+    component: () => import("components/Orden/DetalleEvento.vue"),
+  },
+
+  {
     path: "/login",
     component: () => import("pages/PrincipalAdmin.vue"),
   },
