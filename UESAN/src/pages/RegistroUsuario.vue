@@ -27,7 +27,10 @@
 
       <div class="btn-container">
         <button class="btn-registrarse">Registrarse</button>
-        <div>¿Ya tienes usuario? <a href="login.html">Ingresa</a></div>
+        <!-- <div>¿Ya tienes usuario? <a href="">Ingresa</a></div> -->
+        <div>
+          ¿Ya tienes usuario? <router-link to="/login">Ingresa</router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -93,7 +96,7 @@ body {
   justify-content: center;
   height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   background-color: black;
   color: white;
   background-image: url("src/assets/fondo-esan.png");
@@ -147,7 +150,7 @@ body {
 }
 div input {
   width: 100%;
-  height: 40px;
+  height: 45px;
   border-radius: 20px;
   background-color: transparent;
   border: 3px solid white;
@@ -157,6 +160,10 @@ div input {
 div input:focus {
   outline: 2px solid white;
 }
+div input[type="text"]::placeholder {
+  font-size: 5px;
+}
+
 .btn-container {
   display: flex;
   flex-direction: column;

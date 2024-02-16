@@ -17,7 +17,8 @@
       <div class="button-container">
         <button @click="login">INICIAR SESIÓN</button>
         <div>
-          ¿No tienes cuenta? <a href="registro_usuario.html">Registrate</a>
+          ¿No tienes cuenta?
+          <router-link to="registroUsuario">Registrate</router-link>
         </div>
       </div>
     </div>
