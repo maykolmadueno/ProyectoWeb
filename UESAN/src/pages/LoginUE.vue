@@ -16,69 +16,66 @@
       </div>
       <div class="button-container">
         <button @click="login">INICIAR SESIÓN</button>
+        <div>
+          ¿No tienes cuenta? <a href="registro_usuario.html">Registrate</a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import axios from 'axios';
-  export default{
-    data(){
-      return{
-        email : '',
-        password : ''
-      }
-    },
+import axios from "axios";
+export default {
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
 
-    async login(){
-      let url = "http://localhost:5158/api/Usuario/SignIn";
-      try{
-        const response = await axios.post(url,{correo:this.email,contra : this.password});
-        const usuario = {
-          idUsuario : response.data.idUsuario,
-          tipo : response.data.tipo
-        }
-        localStorage.setItem("usuarioActual",JSON.stringify(usuario));
-        this.$router.push('/Home');
-      }catch(error){
-        console.log("Ocurrio un error:" + error)
-        if (error.response && error.response.status === 404) {
-          this.$q.notify({
-            message: "Correo electrónico o contraseña incorrectos. Por favor, inténtalo de nuevo.",
-            color: "negative",
-            position: "top",
-            timeout: 3000
-          });
-        } else {
-          this.$q.notify({
-            message: "Ocurrió un error. Por favor, inténtalo de nuevo más tarde.",
-            color: "negative",
-            position: "top",
-            timeout: 3000
-          });
-        }
+  async login() {
+    let url = "http://localhost:5158/api/Usuario/SignIn";
+    try {
+      const response = await axios.post(url, {
+        correo: this.email,
+        contra: this.password,
+      });
+      const usuario = {
+        idUsuario: response.data.idUsuario,
+        tipo: response.data.tipo,
+      };
+      localStorage.setItem("usuarioActual", JSON.stringify(usuario));
+      this.$router.push("/Home");
+    } catch (error) {
+      console.log("Ocurrio un error:" + error);
+      if (error.response && error.response.status === 404) {
+        this.$q.notify({
+          message:
+            "Correo electrónico o contraseña incorrectos. Por favor, inténtalo de nuevo.",
+          color: "negative",
+          position: "top",
+          timeout: 3000,
+        });
+      } else {
+        this.$q.notify({
+          message: "Ocurrió un error. Por favor, inténtalo de nuevo más tarde.",
+          color: "negative",
+          position: "top",
+          timeout: 3000,
+        });
       }
     }
-  }
-
-
-
+  },
+};
 </script>
-
 
 <style scoped>
 body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: black;
   color: white;
-  background-image: url("../images/fondo-esan.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
 }
 .main-container {
   display: flex;
@@ -86,10 +83,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-
   font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
-  padding: 0;
   background-color: black;
   color: white;
   background-image: url("src/assets/fondo-esan.png");
@@ -105,14 +99,15 @@ body {
   flex-direction: column;
   margin-left: 60px;
   row-gap: 20px;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
+  line-height: 70px;
 }
 .left-side :first-child {
   font-size: 60px;
   font-weight: bold;
 }
 .left-side :last-child {
-  font-size: 20px;
+  font-size: 25px;
 }
 /* Right side of the page */
 .right-side {
@@ -121,6 +116,9 @@ body {
   flex-direction: column;
   row-gap: 20px;
   align-items: center;
+}
+.right-side input:focus {
+  outline: 2px solid white;
 }
 .mail-container {
   display: flex;
@@ -135,7 +133,7 @@ body {
 }
 .mail-container input {
   padding: 15px 20px;
-  width: 280px;
+  width: 350px;
   border: 2px solid white;
   border-radius: 40px;
   background-color: transparent;
@@ -158,7 +156,7 @@ body {
 }
 .pass-container input {
   padding: 15px 20px;
-  width: 280px;
+  width: 350px;
   border: 2px solid white;
   border-radius: 40px;
   background-color: transparent;
@@ -171,6 +169,7 @@ body {
 .button-container button {
   border: 4px solid white;
   padding: 10px 20px;
+  width: 200px;
   font-weight: bold;
   border-radius: 40px;
   background-color: transparent;
@@ -178,7 +177,19 @@ body {
   margin-left: 45px;
   margin-top: 15px;
   cursor: pointer;
+  margin-bottom: 15px;
+}
+.button-container div {
+  margin-left: 40px;
+}
+div a {
+  color: rgb(236, 128, 128);
+  cursor: pointer;
+}
+div a:hover {
+  font-weight: bold;
+}
+div a:active {
+  color: white;
 }
 </style>
-
-
