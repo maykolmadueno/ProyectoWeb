@@ -1,24 +1,35 @@
 <template>
   <div class="main-container">
     <div class="left-side">
-      <div>Inicia sesión con tu cuenta institucional.</div>
-      <div>debe ser de dominio @esan.edu.pe</div>
+      <div>Registro de nuevo usuario</div>
+      <div>Llenar todos los campos necesarios para su registro.</div>
     </div>
 
     <div class="right-side">
-      <div class="mail-container">
-        <img src="src/assets/persona.png" alt="" />
-        <input v-model="email" type="text" placeholder="example.esan.edu.pe" />
+      <h3>Registro de usuario</h3>
+      <div class="name-container">
+        <label for="nombre">Nombre:</label>
+        <input type="text" required />
+      </div>
+
+      <div class="email-container">
+        <label for="email">Correo electrónico:</label>
+        <input type="email" required />
+      </div>
+      <div class="area-container">
+        <label for="area">Área:</label>
+        <input type="text" required />
       </div>
       <div class="pass-container">
-        <img src="src/assets/candado.png" alt="" />
-        <input v-model="password" type="password" placeholder="password" />
+        <label for="password">Contraseña:</label>
+        <input type="password" required />
       </div>
-      <div class="button-container">
-        <button @click="login">INICIAR SESIÓN</button>
+
+      <div class="btn-container">
+        <button class="btn-registrarse">Registrarse</button>
+        <!-- <div>¿Ya tienes usuario? <a href="">Ingresa</a></div> -->
         <div>
-          ¿No tienes cuenta?
-          <router-link to="registroUsuario">Registrate</router-link>
+          ¿Ya tienes usuario? <router-link to="/login">Ingresa</router-link>
         </div>
       </div>
     </div>
@@ -85,6 +96,7 @@ body {
   justify-content: center;
   height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
   background-color: black;
   color: white;
   background-image: url("src/assets/fondo-esan.png");
@@ -100,88 +112,77 @@ body {
   flex-direction: column;
   margin-left: 60px;
   row-gap: 20px;
-  margin-bottom: 30px;
-  line-height: 70px;
+  margin-bottom: 100px;
 }
 .left-side :first-child {
   font-size: 60px;
   font-weight: bold;
+  line-height: 65px;
 }
 .left-side :last-child {
-  font-size: 25px;
+  font-size: 20px;
 }
 /* Right side of the page */
 .right-side {
   flex: 1;
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 15px;
   align-items: center;
+  justify-content: flex-start;
+  /* border: 2px solid red; */
 }
-.right-side input:focus {
-  outline: 2px solid white;
+.right-side h3 {
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 20px;
 }
-.mail-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  column-gap: 10px;
-}
-.mail-container img {
-  width: 50px;
-  height: 50px;
-  vertical-align: middle;
-}
-.mail-container input {
-  padding: 15px 20px;
-  width: 350px;
-  border: 2px solid white;
-  border-radius: 40px;
-  background-color: transparent;
-  text-align: center;
-  color: white;
-}
-.mail-container input::placeholder {
-  font-size: 16px;
-}
+
+.name-container,
+.email-container,
+.area-container,
 .pass-container {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  column-gap: 10px;
-}
-.pass-container img {
-  width: 40px;
-  height: 50px;
-  vertical-align: middle;
-}
-.pass-container input {
-  padding: 15px 20px;
+  flex-direction: column;
+  row-gap: 10px;
   width: 350px;
-  border: 2px solid white;
-  border-radius: 40px;
+}
+div input {
+  width: 100%;
+  height: 45px;
+  border-radius: 20px;
   background-color: transparent;
-  text-align: center;
+  border: 3px solid white;
   color: white;
+  padding-left: 20px;
 }
-.pass-container input::placeholder {
-  font-size: 16px;
+div input:focus {
+  outline: 2px solid white;
 }
-.button-container button {
+div input[type="text"]::placeholder {
+  font-size: 5px;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.btn-registrarse {
   border: 4px solid white;
   padding: 10px 20px;
   width: 200px;
+  justify-content: center;
   font-weight: bold;
   border-radius: 40px;
   background-color: transparent;
   color: white;
-  margin-left: 45px;
-  margin-top: 15px;
+  margin-top: 10px;
   cursor: pointer;
-  margin-bottom: 15px;
-}
-.button-container div {
-  margin-left: 40px;
+  display: flex;
+  margin-bottom: 10px;
 }
 div a {
   color: rgb(236, 128, 128);
