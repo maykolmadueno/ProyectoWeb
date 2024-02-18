@@ -78,7 +78,7 @@
       </div>
     </div>
 
-    <div class="btn-container">
+    <div class="btn-regresar-container">
       <button @click="regresarServiciosMenu">
         Guardar y regresar a servicios
       </button>
@@ -213,15 +213,15 @@ export default {
 };
 </script>
 
-<style>
-.body {
+<style scoped>
+/* .body {
   padding: 0;
   margin: 0;
   background-color: black;
   height: 100%;
   width: 100%;
   font-family: Arial, Helvetica, sans-serif;
-}
+} */
 
 .container {
   margin: 0;
@@ -391,7 +391,7 @@ button:hover {
 .dropdown:hover .dropdown-content {
   display: block;
 }
-.btn-container {
+.btn-regresar-container {
   display: flex;
   flex-direction: column;
   align-items: center;
