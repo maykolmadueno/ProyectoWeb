@@ -134,7 +134,7 @@ export default {
     async eliminarUsuarioConfirmado() {
       try {
         this.mostrarModalEliminar = false;
-        const response = await axios.delete('http://localhost:5158/api/Usuario?id=${this.usuarioAEliminarId}');
+        const response = await axios.delete(`http://localhost:5158/api/Usuario?id=${this.usuarioAEliminarId}`);
         console.log("Operación de eliminación : " + response);
         this.$q.notify({
             message: "El usuario se eliminó con éxito",
@@ -151,7 +151,6 @@ export default {
             color: "negative",
             position: "top",
             timeout: 3000,
-
           });
       }
     },
