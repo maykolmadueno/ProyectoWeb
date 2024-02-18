@@ -2,7 +2,7 @@
   <div class="container">
     <div class="left-right-container">
       <!-- Parte Izquierda: Formulario -->
-      <div class="formulario">
+      <div class="formulario-container">
         <h3>Solicitud de Servicio Fotográfico</h3>
         <form @submit.prevent="guardarSolicitud">
           <!-- Resto del formulario como antes -->
@@ -214,15 +214,6 @@ export default {
 </script>
 
 <style scoped>
-/* .body {
-  padding: 0;
-  margin: 0;
-  background-color: black;
-  height: 100%;
-  width: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-} */
-
 .container {
   margin: 0;
   padding: 0;
@@ -250,14 +241,14 @@ export default {
 
 /* Left part of the code */
 
-.formulario {
+.formulario-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding-bottom: 20px;
 }
-.formulario h3 {
+.formulario-container h3 {
   /*  text-align: center; */
   margin: 30px 0px;
 }
