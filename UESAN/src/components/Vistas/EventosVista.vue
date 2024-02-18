@@ -45,7 +45,6 @@
             <th>Lugar</th>
             <th>nombre Propietario</th>
             <th>estado</th>
-
           </tr>
         </thead>
         <tbody>
@@ -123,22 +122,53 @@ export default {
     this.filtroNombre = '';
     this.filtroFechaInicio = '';
     this.filtroFechaFin = '';
-
     this.eventosFiltrados = this.eventos;
   },
 
-  cambiarEstado(evento) {
-    console.log("Cambiando estado del evento:", evento);
+  async cambiarEstado(evento) {
+      try{
+        const response = await axios.get(`http://localhost:5158/api/Eventos/CambiarEstadoEvento?id=${evento.idEvento}`);
+        this.$q.notify({
+            message: "Se cambió el estado del evento ",
+            color: "positive",
+            position: "top",
+            timeout: 4000,
+          });
+      }catch(error){
+        console.error('Error:', error);
+        this.$q.notify({
+            message: "No se pudo cambiar el estado del evento...",
+            color: "negative",
+            position: "top",
+            timeout: 3000,
+          });
+      }
   },
+
   verDetalles(evento) {
     localStorage.setItem("EventoSeleccionadoAdmin",JSON.stringify(evento));
     this.$router.push('/detalleEventoVistaAdmin');
-    //redirigir a la ventana de detalle del evento.
   },
-  eliminarEvento(evento) {
-    console.log("Eliminando evento:", evento);
-  }
 
+  async eliminarEvento(evento) {
+    try{
+        const response = await axios.get(`http://localhost:5158/api/Eventos?id=${evento.idEvento}`);
+        this.$q.notify({
+            message: "Se Eliminó el evento ",
+            color: "positive",
+            position: "top",
+            timeout: 4000,
+          });
+      }catch(error){
+        console.error('Error:', error);
+        this.$q.notify({
+            message: "No se pudo eliminar el evento...",
+            color: "negative",
+            position: "top",
+            timeout: 3000,
+          });
+      }
+  }
 
   }
 };
