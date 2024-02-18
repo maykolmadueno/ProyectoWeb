@@ -1,63 +1,73 @@
 <template>
-  <div class="container">
-    <h1>Formulario de Evento</h1>
+  <div class="main-container">
+    <div class="title-container">Formulario del Evento</div>
     <form @submit.prevent="crearServicios">
+      <div class="inputs-container">
+        <div class="name-container">
+          <label for="e.nombre">Nombre:</label>
+          <input type="text" v-model="e.nombre" required placeholder="nombre" />
+        </div>
 
-      <div class="form-group">
-        <label for="e.nombre">Nombre:</label>
-        <input type="text" v-model="e.nombre" required>
+        <div class="description-container">
+          <label for="e.descripcion">Descripción:</label>
+          <textarea
+            v-model="e.descripcion"
+            required
+            cols="30"
+            rows="10"
+          ></textarea>
+        </div>
+        <div class="date-time-container">
+          <div class="date-container">
+            <label for="e.fechaEvento">Fecha del Evento:</label>
+            <input type="date" v-model="e.fechaEvento" required />
+          </div>
+
+          <div class="start-time-container">
+            <label for="e.horaInicio">Hora de Inicio:</label>
+            <input type="time" v-model="e.horaInicio" required />
+          </div>
+
+          <div class="finish-time-container">
+            <label for="e.horaFin">Hora de Fin:</label>
+            <input type="time" v-model="e.horaFin" required />
+          </div>
+        </div>
+
+        <div class="place-container">
+          <label for="e.lugar">Lugar:</label>
+          <input type="text" v-model="e.lugar" required />
+        </div>
+
+        <div class="imp-mom-container">
+          <label for="e.momentosImportantes">Momentos Importantes:</label>
+          <textarea
+            v-model="e.momentosImportantes"
+            required
+            cols="30"
+            rows="10"
+          ></textarea>
+        </div>
+
+        <div class="quantity-container">
+          <label for="e.cantidadInvitados">Cantidad de Invitados:</label>
+          <input type="number" v-model="e.cantidadInvitados" required />
+        </div>
       </div>
-
-      <div class="form-group">
-        <label for="e.descripcion">Descripción:</label>
-        <textarea v-model="e.descripcion" required></textarea>
+      <div class="btn-container">
+        <button @click="crearServicios">Crear Servicios</button>
       </div>
-
-      <div class="form-group">
-        <label for="e.fechaEvento">Fecha del Evento:</label>
-        <input type="date" v-model="e.fechaEvento" required>
-      </div>
-
-      <div class="form-group">
-        <label for="e.horaInicio">Hora de Inicio:</label>
-        <input type="time" v-model="e.horaInicio" required>
-      </div>
-
-      <div class="form-group">
-        <label for="e.horaFin">Hora de Fin:</label>
-        <input type="time" v-model="e.horaFin" required>
-      </div>
-
-      <div class="form-group">
-        <label for="e.lugar">Lugar:</label>
-        <input type="text" v-model="e.lugar" required>
-      </div>
-
-      <div class="form-group">
-        <label for="e.momentosImportantes">Momentos Importantes:</label>
-        <textarea v-model="e.momentosImportantes"></textarea>
-      </div>
-
-      <div class="form-group">
-        <label for="e.cantidadInvitados">Cantidad de Invitados:</label>
-        <input type="number" v-model="e.cantidadInvitados" required>
-      </div>
-
-      <button @click="crearServicios">Crear Servicios</button>
     </form>
   </div>
 </template>
 
 <script>
 export default {
-
-  created(){
-
+  created() {
     const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
-    if(usuario){
+    if (usuario) {
       this.idUsuario = usuario.idUsuario;
     }
-
 
     const solicitudGuardada = localStorage.getItem("EventoCreado");
     if (solicitudGuardada) {
@@ -76,23 +86,21 @@ export default {
 
   data() {
     return {
-      e : {
-        nombre: '',
-        descripcion: '',
-        fechaEvento: '',
-        horaInicio: '',
-        horaFin: '',
-        lugar: '',
-        momentosImportantes: '',
+      e: {
+        nombre: "",
+        descripcion: "",
+        fechaEvento: "",
+        horaInicio: "",
+        horaFin: "",
+        lugar: "",
+        momentosImportantes: "",
         cantidadInvitados: 0,
-        idUsuario : null
-      }
-
+        idUsuario: null,
+      },
     };
   },
   methods: {
     crearServicios() {
-
       const EventoInsertDTO = {
         nombre: this.e.nombre,
         descripcion: this.e.descripcion,
@@ -100,15 +108,15 @@ export default {
         horaInicio: this.e.horaInicio,
         horaFin: this.e.horaFin,
         lugar: this.e.lugar,
-        fechaCreacion:  new Date().toISOString(),
+        fechaCreacion: new Date().toISOString(),
         momentosImportantes: this.e.momentosImportantes,
         cantidadInvitados: Number(this.e.cantidadInvitados),
-        idUsuario:1
+        idUsuario: 1,
       };
 
-      localStorage.setItem("EventoCreado",JSON.stringify(EventoInsertDTO));
+      localStorage.setItem("EventoCreado", JSON.stringify(EventoInsertDTO));
 
-     /*
+      /*
       const url = "http://localhost:5158/api/Eventos/CreateEventos";
       axios
         .post(url,EventoInsertDTO)
@@ -131,69 +139,149 @@ export default {
       //localStorage.setItem("EventoActual", JSON.stringify(evento));
       // Redirige a la página de servicios
       this.limpiarFormulario();
-      this.$router.push('/services');
+      this.$router.push("/services");
     },
     limpiarFormulario() {
-      this.e.nombre = '';
-      this.e.descripcion = '';
-      this.e.fechaEvento = '';
-      this.e.horaInicio = '';
-      this.e.horaFin = '';
-      this.e.lugar = '';
-      this.e.momentosImportantes = '';
+      this.e.nombre = "";
+      this.e.descripcion = "";
+      this.e.fechaEvento = "";
+      this.e.horaInicio = "";
+      this.e.horaFin = "";
+      this.e.lugar = "";
+      this.e.momentosImportantes = "";
       this.e.cantidadInvitados = 0;
     },
   },
 };
 </script>
 
-
-<style scoped>
-.container {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: #000;
-  border-radius: 10px;
-  text-align: center;
-  color: #fff;
-}
-
-form {
+<style>
+html {
+  background-image: url("src/assets/fondo-esan-2.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /*  height: 100%;
+  width: 100%; */
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  background-color: rgb(0, 0, 0, 0.8);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.form-group {
-  margin: 10px 0;
+/* Main container */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid rgba(230, 23, 23, 0.5);
+  padding: 20px 40px;
+  border-radius: 20px;
+  z-index: 300;
+  background-color: rgba(0, 0, 0, 0.4);
+  margin-left: 30%;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
+.title-container {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
-
-input,
-textarea,
-select {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  box-sizing: border-box;
+.inputs-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  row-gap: 15px;
 }
-
-button {
-  padding: 10px;
-  margin-top: 20px;
-  background-color: #fff;
-  color: #000;
+.inputs-container input {
   border: none;
+  margin-top: 5px;
+  padding-left: 10px;
+}
+.inputs-container input:focus {
+  outline: 2px solid rgb(252, 249, 249);
+}
+.name-container input,
+.place-container input,
+.quantity-container input {
+  width: 100%;
+  height: 25px;
   border-radius: 5px;
-  cursor: pointer;
 }
 
-button:hover {
-  background-color: #ccc;
+/* .description-container input{
+
+    width:100%;
+    height: 60px;
+    border-radius: 10px;
+    text-overflow: initial;
+
+} */
+.description-container textarea {
+  width: 100%;
+  height: 60px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 5px;
+  padding-left: 10px;
+  padding-top: 5px;
+}
+.description-container textarea:focus {
+  outline: 2px solid rgb(252, 249, 249);
+}
+.imp-mom-container textarea {
+  width: 100%;
+  height: 60px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 5px;
+  padding-left: 10px;
+  padding-top: 5px;
+}
+
+.imp-mom-container textarea:focus {
+  outline: 2px solid rgb(252, 249, 249);
+}
+.date-time-container {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+}
+.date-time-container input {
+  width: 100%;
+  height: 25px;
+  border-radius: 5px;
+}
+.btn-container {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.btn-container button {
+  color: white;
+  background: transparent;
+  padding: 10px 30px;
+  border: 4px solid white;
+  font-weight: bold;
+  border-radius: 20px;
+  font-size: 18px;
+  cursor: pointer;
 }
 </style>

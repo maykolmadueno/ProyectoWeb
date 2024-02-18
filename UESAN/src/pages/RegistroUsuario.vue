@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <div class="left-side">
-      <div>Registro de nuevo usuario</div>
+      <div>Registro de nuevo usuario.</div>
       <div>Llenar todos los campos necesarios para su registro.</div>
     </div>
 
