@@ -35,7 +35,8 @@ export default {
     };
   },
 
-  async login() {
+  methods:{
+    async login() {
     let url = "http://localhost:5158/api/Usuario/SignIn";
     try {
       const response = await axios.post(url, {
@@ -47,6 +48,13 @@ export default {
         tipo: response.data.tipo,
       };
       localStorage.setItem("usuarioActual", JSON.stringify(usuario));
+      this.$q.notify({
+          message:
+            "Ingreso exitoso",
+          color: "positive",
+          position: "top",
+          timeout: 3000,
+        });
       this.$router.push("/Home");
     } catch (error) {
       console.log("Ocurrio un error:" + error);
@@ -68,6 +76,9 @@ export default {
       }
     }
   },
+  },
+
+
 };
 </script>
 

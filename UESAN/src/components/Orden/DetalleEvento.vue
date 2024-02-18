@@ -123,7 +123,6 @@ export default {
 
     async getCircuitoCerrado(idServicioCC){
        return await this.funcionGet(`http://localhost:5158/api/CircuitoCerrado/GetByIdServicio = ${idServicioCC}/Servicio`,'CircuitoCerrado');
-
     },
 
     async getservicios(){
