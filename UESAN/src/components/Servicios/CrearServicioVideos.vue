@@ -177,7 +177,7 @@ export default {
   margin: 0;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: start;
   justify-content: space-around;
 }
 
@@ -216,12 +216,22 @@ input {
   border: none;
   padding-left: 10px;
 }
+
 input:focus {
   outline: 2px solid white;
 }
-
+/* .solicitudes-wrapper {
+  margin-bottom: 0;
+  border: 2px solid green;
+  display: flex;
+  vertical-align: top;
+} */
+.solicitudes-wrapper h3 {
+  margin-top: 30px;
+  margin-bottom: 0;
+}
 .solicitud-item {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   padding: 10px;
   /* background-color: #555; */
   border-radius: 5px;
@@ -230,7 +240,10 @@ input:focus {
 .solicitud-item div {
   margin-top: 10px;
 }
-
+label,
+input {
+  margin: 5px 0;
+}
 button {
   padding: 10px;
   margin-top: 10px;
@@ -257,7 +270,6 @@ button:hover {
 .modificar-eliminar-container {
   display: flex;
   flex-direction: row;
-  /* row-gap: 20px; */
   column-gap: 20px;
 }
 </style>

@@ -243,7 +243,7 @@ export default {
   margin: 0;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: start;
   justify-content: space-around;
   /* border-bottom: 3px solid rgba(172, 34, 34, 0.5); */
 }
@@ -354,6 +354,16 @@ button {
 
 button:hover {
   background-color: #c9302c;
+}
+.solicitudes h3 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+.solicitud-item {
+  margin-bottom: 0px;
+  padding: 10px;
+  /* background-color: #555; */
+  border-radius: 5px;
 }
 
 #solicitudesGuardadas {
