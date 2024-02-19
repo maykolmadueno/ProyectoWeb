@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="left-right-container">
-      <div class="formulario-container">
+      <div v-if="mostrarFormulario" class="formulario-container">
         <h3>Solicitud de Servicio de Circuito Cerrado</h3>
         <!-- Formulario -->
         <form @submit.prevent="guardarSolicitud">
