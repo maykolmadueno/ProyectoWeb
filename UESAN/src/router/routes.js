@@ -65,7 +65,10 @@ const routes = [
     component: () => import("components/Orden/DetalleEvento.vue"),
   },
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a864b726684ab91777c5d72c2037bc1d72b88d81
   {
     path: "/registroUsuario",
     component: () => import("pages/RegistroUsuario.vue"),
