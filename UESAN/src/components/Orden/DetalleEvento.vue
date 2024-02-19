@@ -74,20 +74,24 @@ export default {
   async created() {
     this.GetEvento();
     this.servicios = await this.getservicios();
-    console.log("El valor de la variable servicios en el created : "+this.servicios);
-    //Primero evaluo cuantos son de foto.
-    let idServicioFoto = this.buscador('foto');
-    if(idServicioFoto != null){
-      this.fotos = await this.getFotos(idServicioFoto);
-    }
-    let idServicioVideo = this.buscador('video');
-    if(idServicioVideo != null){
-      this.videos = await this.getVideos(idServicioVideo);
-    }
+    //console.log("El valor de la variable servicios en el created : "+this.servicios);
+    if(this.servicios != null){
+        //Primero evaluo cuantos son de foto.
+      let idServicioFoto = this.buscador('foto');
+      if(idServicioFoto != null){
+        this.fotos = await this.getFotos(idServicioFoto);
+      }
+      let idServicioVideo = this.buscador('video');
+      if(idServicioVideo != null){
+        this.videos = await this.getVideos(idServicioVideo);
+      }
 
-    let idServicioCC = this.buscador('CircuitoCerrado');
-    if(idServicioCC != null){
-      this.cc = await this.getCircuitoCerrado(idServicioCC);
+      let idServicioCC = this.buscador('CircuitoCerrado');
+      if(idServicioCC != null){
+        this.cc = await this.getCircuitoCerrado(idServicioCC);
+      }
+    }else{
+      console.log("arroz");
     }
 
 
@@ -110,7 +114,7 @@ export default {
     },
 
     GetEvento(){
-      this.Evento = JSON.parse(localStorage.getItem('EventoSeleccionadoAdmin'));
+      this.Evento = JSON.parse(localStorage.getItem('EventoSeleccionado'));
     },
 
     async getFotos(idServicioFoto){
@@ -139,13 +143,15 @@ export default {
         const response = await axios.get(url);
         return (response.data);
       }catch(error){
-        console.error('Error:', error);
+        //console.error('Error:', error);
         this.$q.notify({
-            message: `Error al traer los ${objeto}...`,
+            //message: `Error al traer los ${objeto}`,
+            message: `Error : ${error.response.data}`,
             color: "negative",
             position: "top",
             timeout: 4000,
           });
+        return null;
       }
     }
 

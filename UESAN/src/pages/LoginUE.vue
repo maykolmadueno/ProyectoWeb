@@ -35,60 +35,52 @@ export default {
     };
   },
 
-  methods:{
+  methods: {
     async login() {
-    let url = "http://localhost:5158/api/Usuario/SignIn";
-    try {
-      const response = await axios.post(url, {
-        correo: this.email,
-        contra: this.password,
-      });
-      const usuario = {
-        idUsuario: response.data.idUsuario,
-        tipo: response.data.tipo,
-      };
-      localStorage.setItem("usuarioActual", JSON.stringify(usuario));
-      this.$q.notify({
-          message:
-            "Ingreso exitoso",
+      let url = "http://localhost:5158/api/Usuario/SignIn";
+      try {
+        const response = await axios.post(url, {
+          correo: this.email,
+          contra: this.password,
+        });
+        const usuario = {
+          idUsuario: response.data.idUsuario,
+          tipo: response.data.tipo,
+        };
+        localStorage.setItem("usuarioActual", JSON.stringify(usuario));
+        this.$q.notify({
+          message: "Ingreso exitoso",
           color: "positive",
           position: "top",
           timeout: 3000,
         });
-      this.$router.push("/Home");
-    } catch (error) {
-      console.log("Ocurrio un error:" + error);
-      if (error.response && error.response.status === 404) {
-        this.$q.notify({
-          message:
-            "Correo electrónico o contraseña incorrectos. Por favor, inténtalo de nuevo.",
-          color: "negative",
-          position: "top",
-          timeout: 3000,
-        });
-      } else {
-        this.$q.notify({
-          message: "Ocurrió un error. Por favor, inténtalo de nuevo más tarde.",
-          color: "negative",
-          position: "top",
-          timeout: 3000,
-        });
+        this.$router.push("/Home");
+      } catch (error) {
+        console.log("Ocurrio un error:" + error);
+        if (error.response && error.response.status === 404) {
+          this.$q.notify({
+            message:
+              "Correo electrónico o contraseña incorrectos. Por favor, inténtalo de nuevo.",
+            color: "negative",
+            position: "top",
+            timeout: 3000,
+          });
+        } else {
+          this.$q.notify({
+            message:
+              "Ocurrió un error. Por favor, inténtalo de nuevo más tarde.",
+            color: "negative",
+            position: "top",
+            timeout: 3000,
+          });
+        }
       }
-    }
+    },
   },
-  },
-
-
 };
 </script>
 
 <style scoped>
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
-  padding: 0;
-  color: white;
-}
 .main-container {
   display: flex;
   flex-direction: row;

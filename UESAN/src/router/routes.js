@@ -56,20 +56,24 @@ const routes = [
   },
 
   {
+    path: "/VistaEventosUsuario",
+    component: () => import("components/Vistas/VistasEventosUsuario/VistaEventosUsuario.vue"),
+  },
+
+  {
     path: "/AdminPrincipal",
     component: () => import("pages/PrincipalAdmin.vue"),
   },
 
   {
-    path: "/detalleEventoVistaAdmin",
+    path: "/detalleEventoVista",
     component: () => import("components/Orden/DetalleEvento.vue"),
   },
 
-  {
-    path: "/login",
-    component: () => import("pages/PrincipalAdmin.vue"),
-  },
+<<<<<<< HEAD
 
+=======
+>>>>>>> a864b726684ab91777c5d72c2037bc1d72b88d81
   {
     path: "/registroUsuario",
     component: () => import("pages/RegistroUsuario.vue"),

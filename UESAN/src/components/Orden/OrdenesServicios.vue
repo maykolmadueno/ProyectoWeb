@@ -136,12 +136,13 @@ export default {
       await this.crearServicioVideos(idEvento);
       await this.CrearServicioCC(idEvento);
 
-      /*
+
       localStorage.removeItem('EventoCreado');
       localStorage.removeItem('FotosSolicitadas');
       localStorage.removeItem('VideosSolicitados');
       localStorage.removeItem('CCSolicitud');
-      */
+      this.$router.push('/Home');
+
     },
 
     async CrearEvento(){
