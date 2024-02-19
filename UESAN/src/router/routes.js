@@ -61,11 +61,6 @@ const routes = [
   },
 
   {
-    path: "/login",
-    component: () => import("pages/PrincipalAdmin.vue"),
-  },
-
-  {
     path: "/registroUsuario",
     component: () => import("pages/RegistroUsuario.vue"),
   },
