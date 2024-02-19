@@ -54,7 +54,7 @@
 
       <!-- Parte Derecha: Lista de Solicitudes -->
       <div class="solicitudes" v-if="solicitudes.length > 0">
-        <h3>Solicitudes Guardadas</h3>
+        <h3>Solicitudes de fotos guardadas</h3>
         <div
           v-for="(solicitud, index) in solicitudes"
           :key="index"
