@@ -51,12 +51,17 @@ const routes = [
   },
 
   {
+    path: "/VistaEventosUsuario",
+    component: () => import("components/Vistas/VistasEventosUsuario/VistaEventosUsuario.vue"),
+  },
+
+  {
     path: "/AdminPrincipal",
     component: () => import("pages/PrincipalAdmin.vue"),
   },
 
   {
-    path: "/detalleEventoVistaAdmin",
+    path: "/detalleEventoVista",
     component: () => import("components/Orden/DetalleEvento.vue"),
   },
 

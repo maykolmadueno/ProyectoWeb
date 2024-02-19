@@ -1,9 +1,7 @@
 <template>
   <div>
-    <!-- Filtros -->
     <div>
-      <h2>Filtros => </h2>
-      <!-- Filtro por Estado -->
+      <h2>Filtros  </h2>
       <div>
         <label for="estado">Estado:</label>
         <select v-model="filtroEstado" @change="aplicarFiltro">
@@ -55,7 +53,6 @@
             <td>{{ evento.usuarioPropietario.nombre }}</td>
             <td>{{ evento.estado }}</td>
             <td>
-            <button  @click="cambiarEstado(evento)">Estado</button>
             <button  @click="verDetalles(evento)">Detalles</button>
             <button  @click="eliminarEvento(evento)">Eliminar</button>
           </td>
@@ -72,6 +69,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      usuario:null,
       eventos: [],
       eventosFiltrados: [],
       filtroEstado: '',
@@ -81,13 +79,15 @@ export default {
     };
   },
   mounted() {
+    //Primero traigo al usuario:
+    this.usuario =JSON.parse(localStorage.getItem("usuarioActual"));
     this.fetchEventos();
   },
 
   methods: {
     async fetchEventos() {
       try{
-        const response = await axios.get('http://localhost:5158/api/Eventos/GetAll');
+        const response = await axios.get(`http://localhost:5158/api/Eventos/GetAllByUsuarioVizualizadorAndcreador?id=${this.usuario.idUsuario}`);
         this.eventos = response.data;
         this.eventosFiltrados = [...this.eventos];
       }catch(error){
@@ -125,25 +125,6 @@ export default {
     this.eventosFiltrados = this.eventos;
   },
 
-  async cambiarEstado(evento) {
-      try{
-        const response = await axios.get(`http://localhost:5158/api/Eventos/CambiarEstadoEvento?id=${evento.idEvento}`);
-        this.$q.notify({
-            message: "Se cambió el estado del evento ",
-            color: "positive",
-            position: "top",
-            timeout: 4000,
-          });
-      }catch(error){
-        console.error('Error:', error);
-        this.$q.notify({
-            message: "No se pudo cambiar el estado del evento...",
-            color: "negative",
-            position: "top",
-            timeout: 3000,
-          });
-      }
-  },
 
   verDetalles(evento) {
     localStorage.setItem("EventoSeleccionado",JSON.stringify(evento));
