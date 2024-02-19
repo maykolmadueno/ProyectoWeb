@@ -1,5 +1,9 @@
 <template>
-  <div>
+
+  <div v-if = "!est">
+    <h2>Este usuario no tiene eventos</h2>
+  </div>
+  <div v-if = "est">
     <div>
       <h2>Filtros  </h2>
       <div>
@@ -32,10 +36,11 @@
 
     </div>
 
+
     <!-- Tabla de eventos -->
-    <div>
+    <div v-if = "est">
       <h2>Eventos</h2>
-      <table>
+      <table >
         <thead>
           <tr>
             <th>Nombre</th>
@@ -76,6 +81,7 @@ export default {
       filtroNombre: '',
       filtroFechaInicio: '',
       filtroFechaFin:'',
+      est : true,
     };
   },
   mounted() {
@@ -89,14 +95,16 @@ export default {
       try{
         const response = await axios.get(`http://localhost:5158/api/Eventos/GetAllByUsuarioVizualizadorAndcreador?id=${this.usuario.idUsuario}`);
         this.eventos = response.data;
+        console.log(this.eventos);
         this.eventosFiltrados = [...this.eventos];
       }catch(error){
+        this.est = false;
         console.error('Error:', error);
         this.$q.notify({
-            message: "Error al traer los eventos...",
+            message: "Este usuario aun no tiene eventos",
             color: "negative",
             position: "top",
-            timeout: 3000,
+            timeout: 5000,
           });
       }
     },

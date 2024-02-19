@@ -141,6 +141,7 @@ export default {
       localStorage.removeItem('FotosSolicitadas');
       localStorage.removeItem('VideosSolicitados');
       localStorage.removeItem('CCSolicitud');
+      this.$router.push('/Home');
 
     },
 

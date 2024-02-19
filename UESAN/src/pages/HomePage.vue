@@ -6,9 +6,9 @@
         <p>ESAN Labs</p>
       </div>
       <div class="right-side">
-        <U v-if = "mostrar">Administrador</U>
+        <u v-if = "mostrar" @click = "ventanaAdmin">Administrador</u>
         <u>Home</u>
-        <u>Mis Eventos</u>
+        <u @click = "irA('VistaEventosUsuario')">Mis Eventos </u>
         <u>Mi Multimedia</u>
         <button @click="nuevoEvento">NUEVO EVENTO</button>
         <img src="src/assets/persona.png" alt="" />
@@ -28,35 +28,50 @@
 
 <script>
 export default {
-  methods: {
 
-    created() {
-      const u = localStorage.getItem('usuarioActual');
-      if (u) {
-        try {
-          this.usuario = JSON.parse(u);
-          if(this.usuario.tipo == "admin"){this.mostrar = true;}
-        } catch (error) {
-          this.usuario = null;
-        }
-      }
+  created() {
+      this.cambioMostrar();
     },
 
-    data(){
+  data(){
       return{
         usuario : null,
         mostrar : false,
       }
     },
 
+
+  methods: {
+
+    cambioMostrar(){
+      const u = (localStorage.getItem("usuarioActual"));
+      if (u) {
+        try {
+          this.usuario = JSON.parse(u);
+          if(this.usuario.tipo == "Admin"){
+            this.mostrar = true;
+          }
+        } catch (error) {
+          this.usuario = null;
+        }
+      }
+    },
+
+
     irA(ruta) {
       this.$router.push({ path: ruta });
     },
+
     nuevoEvento() {
       this.$router.push("/CreateEventos");
       // Lógica para el botón Nuevo Evento
-
     },
+
+    ventanaAdmin(){
+      this.$router.push("/AdminPrincipal");
+    },
+
+
   },
 };
 </script>
