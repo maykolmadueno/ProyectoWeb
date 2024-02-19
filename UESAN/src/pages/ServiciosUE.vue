@@ -25,7 +25,7 @@
           <img src="src/assets/videos.png" alt="" />
           <div>VIDEOS</div>
         </div>
-        <div class="img-container streaming-service">
+        <div class="img-container streaming-service" @click="irA('ServicioStream')">
           <img src="src/assets/streaming.png" alt="" />
           <div>STREAMING</div>
         </div>

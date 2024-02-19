@@ -41,6 +41,11 @@ const routes = [
   },
 
   {
+    path: "/ServicioStream",
+    component: () => import("components/Servicios/CrearServicioStreaming.vue"),
+  },
+
+  {
     path: "/OrdenesServicios",
     component: () => import("components/Orden/OrdenesServicios.vue"),
   },
