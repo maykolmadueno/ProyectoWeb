@@ -2,7 +2,7 @@
   <div class="container">
     <div class="left-right-container">
       <!-- Parte Izquierda: Formulario -->
-      <div class="formulario">
+      <div class="formulario-container">
         <h3>Solicitud de Servicio Fotográfico</h3>
         <form @submit.prevent="guardarSolicitud">
           <!-- Resto del formulario como antes -->
@@ -78,7 +78,7 @@
       </div>
     </div>
 
-    <div class="btn-container">
+    <div class="btn-regresar-container">
       <button @click="regresarServiciosMenu">
         Guardar y regresar a servicios
       </button>
@@ -213,16 +213,7 @@ export default {
 };
 </script>
 
-<style>
-.body {
-  padding: 0;
-  margin: 0;
-  background-color: black;
-  height: 100%;
-  width: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
+<style scoped>
 .container {
   margin: 0;
   padding: 0;
@@ -243,21 +234,21 @@ export default {
   margin: 0;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: start;
   justify-content: space-around;
   /* border-bottom: 3px solid rgba(172, 34, 34, 0.5); */
 }
 
 /* Left part of the code */
 
-.formulario {
+.formulario-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding-bottom: 20px;
 }
-.formulario h3 {
+.formulario-container h3 {
   /*  text-align: center; */
   margin: 30px 0px;
 }
@@ -355,6 +346,16 @@ button {
 button:hover {
   background-color: #c9302c;
 }
+.solicitudes h3 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+.solicitud-item {
+  margin-bottom: 0px;
+  padding: 10px;
+  /* background-color: #555; */
+  border-radius: 5px;
+}
 
 #solicitudesGuardadas {
   margin-top: 30px;
@@ -391,7 +392,7 @@ button:hover {
 .dropdown:hover .dropdown-content {
   display: block;
 }
-.btn-container {
+.btn-regresar-container {
   display: flex;
   flex-direction: column;
   align-items: center;
