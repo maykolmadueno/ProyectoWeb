@@ -1,63 +1,71 @@
 <template>
-  <div class="main-container">
-    <div class="title-container">Formulario del Evento</div>
-    <form @submit.prevent="crearServicios">
-      <div class="inputs-container">
-        <div class="name-container">
-          <label for="e.nombre">Nombre:</label>
-          <input type="text" v-model="e.nombre" required placeholder="nombre" />
-        </div>
-
-        <div class="description-container">
-          <label for="e.descripcion">Descripción:</label>
-          <textarea
-            v-model="e.descripcion"
-            required
-            cols="30"
-            rows="10"
-          ></textarea>
-        </div>
-        <div class="date-time-container">
-          <div class="date-container">
-            <label for="e.fechaEvento">Fecha del Evento:</label>
-            <input type="date" v-model="e.fechaEvento" required />
+  <div class="fondo-container">
+    <div class="main-container">
+      <div class="title-container">Formulario del Evento</div>
+      <form @submit.prevent="crearServicios">
+        <div class="inputs-container">
+          <div class="name-container">
+            <label for="e.nombre">Nombre:</label>
+            <input
+              type="text"
+              v-model="e.nombre"
+              required
+              placeholder="nombre"
+            />
           </div>
 
-          <div class="start-time-container">
-            <label for="e.horaInicio">Hora de Inicio:</label>
-            <input type="time" v-model="e.horaInicio" required />
+          <div class="description-container">
+            <label for="e.descripcion">Descripción:</label>
+            <textarea
+              v-model="e.descripcion"
+              required
+              cols="30"
+              rows="10"
+            ></textarea>
+          </div>
+          <div class="date-time-container">
+            <div class="date-container">
+              <label for="e.fechaEvento">Fecha del Evento:</label>
+              <input type="date" v-model="e.fechaEvento" required />
+            </div>
+
+            <div class="start-time-container">
+              <label for="e.horaInicio">Hora de Inicio:</label>
+              <input type="time" v-model="e.horaInicio" required />
+            </div>
+
+            <div class="finish-time-container">
+              <label for="e.horaFin">Hora de Fin:</label>
+              <input type="time" v-model="e.horaFin" required />
+            </div>
           </div>
 
-          <div class="finish-time-container">
-            <label for="e.horaFin">Hora de Fin:</label>
-            <input type="time" v-model="e.horaFin" required />
+          <div class="place-container">
+            <label for="e.lugar">Lugar:</label>
+            <input type="text" v-model="e.lugar" required />
+          </div>
+
+          <div class="imp-mom-container">
+            <label for="e.momentosImportantes">Momentos Importantes:</label>
+            <textarea
+              v-model="e.momentosImportantes"
+              required
+              cols="30"
+              rows="10"
+            ></textarea>
+          </div>
+
+          <div class="quantity-container">
+            <label for="e.cantidadInvitados">Cantidad de Invitados:</label>
+            <input type="number" v-model="e.cantidadInvitados" required />
           </div>
         </div>
-
-        <div class="place-container">
-          <label for="e.lugar">Lugar:</label>
-          <input type="text" v-model="e.lugar" required />
+        <div class="btn-container">
+          <button @click="crearServicios">Crear Servicios</button>
+          <router-link to="Home">Regresar</router-link>
         </div>
-
-        <div class="imp-mom-container">
-          <label for="e.momentosImportantes">Momentos Importantes:</label>
-          <textarea
-            v-model="e.momentosImportantes"
-            required
-            cols="30"
-            rows="10"
-          ></textarea>
-        </div>
-
-        <div class="quantity-container">
-          <label for="e.cantidadInvitados">Cantidad de Invitados:</label>
-          <input type="number" v-model="e.cantidadInvitados" required />
-        </div>
-      </div>
-      <div class="btn-container">
-        <button @click="crearServicios">Crear Servicios</button>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -155,14 +163,13 @@ export default {
 };
 </script>
 
-<style>
-html {
+<style scoped>
+/*html {
   background-image: url("src/assets/fondo-esan-2.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  /*  height: 100%;
-  width: 100%; */
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -181,6 +188,26 @@ body {
   align-items: center;
   justify-content: center;
 }
+*/
+.fondo-container {
+  background-image: url("src/assets/fondo-esan-2.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  background-color: rgb(0, 0, 0, 0.8);
+  height: 100vh;
+  width: 100vw;
+}
 
 /* Main container */
 .main-container {
@@ -194,7 +221,6 @@ body {
   border-radius: 20px;
   z-index: 300;
   background-color: rgba(0, 0, 0, 0.4);
-  margin-left: 30%;
 }
 
 .title-container {
@@ -273,6 +299,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  column-gap: 20px;
 }
 .btn-container button {
   color: white;
@@ -283,5 +310,15 @@ body {
   border-radius: 20px;
   font-size: 18px;
   cursor: pointer;
+}
+div a {
+  color: rgb(236, 128, 128);
+  cursor: pointer;
+}
+div a:hover {
+  font-weight: bold;
+}
+div a:active {
+  color: white;
 }
 </style>
