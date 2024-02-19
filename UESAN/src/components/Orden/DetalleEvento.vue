@@ -110,7 +110,7 @@ export default {
     },
 
     GetEvento(){
-      this.Evento = JSON.parse(localStorage.getItem('EventoSeleccionadoAdmin'));
+      this.Evento = JSON.parse(localStorage.getItem('EventoSeleccionado'));
     },
 
     async getFotos(idServicioFoto){
