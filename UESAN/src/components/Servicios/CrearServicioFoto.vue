@@ -26,7 +26,11 @@
                     class="tipo-item"
                     @click="seleccionarTipo(`Plano ${index + 1}`)"
                   >
-                    <img :src="imagen.src" :alt="imagen.alt" />
+                    <img
+                      :src="imagen.src"
+                      :alt="imagen.alt"
+                      class="tipo-foto"
+                    />
                     <div class="tipo-label">Plano {{ index + 1 }}</div>
                   </div>
                 </div>
@@ -406,5 +410,9 @@ button:hover {
   flex-direction: row;
   /* row-gap: 20px; */
   column-gap: 20px;
+}
+.tipo-foto {
+  width: 30px;
+  height: 50px;
 }
 </style>
