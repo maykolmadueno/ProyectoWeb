@@ -41,6 +41,11 @@ const routes = [
   },
 
   {
+    path: "/ServicioStream",
+    component: () => import("components/Servicios/CrearServicioStreaming.vue"),
+  },
+
+  {
     path: "/OrdenesServicios",
     component: () => import("components/Orden/OrdenesServicios.vue"),
   },
@@ -52,7 +57,8 @@ const routes = [
 
   {
     path: "/VistaEventosUsuario",
-    component: () => import("components/Vistas/VistasEventosUsuario/VistaEventosUsuario.vue"),
+    component: () =>
+      import("components/Vistas/VistasEventosUsuario/VistaEventosUsuario.vue"),
   },
 
   {

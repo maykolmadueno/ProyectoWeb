@@ -1,13 +1,17 @@
 <template>
-  <div class="main-container">
+  <div class="main-container-admin">
     <div class="navbar">
       <div class="left-side">
         <img src="src/assets/logo2.png" alt="" />
         <p>ESAN Labs</p>
       </div>
       <div class="right-side">
-        <button @click="VistaUsuarios" :disabled="!usuariosButtonEnabled">Gestión Usuarios</button>
-        <button @click="VistaEventos" :disabled="!eventosButtonEnabled">Gestión Eventos</button>
+        <button @click="VistaUsuarios" :disabled="!usuariosButtonEnabled">
+          Gestión Usuarios
+        </button>
+        <button @click="VistaEventos" :disabled="!eventosButtonEnabled">
+          Gestión Eventos
+        </button>
         <button @click="salir">Salir</button>
         <img src="src/assets/persona.png" alt="" />
       </div>
@@ -19,61 +23,57 @@
 </template>
 
 <script>
-import Usuarios from 'components/Vistas/UsuariosVista.vue';
-import Eventos from 'components/Vistas/EventosVista.vue';
+import Usuarios from "components/Vistas/UsuariosVista.vue";
+import Eventos from "components/Vistas/EventosVista.vue";
 
 export default {
-
   components: {
     Usuarios,
-    Eventos
+    Eventos,
   },
 
   data() {
     return {
       currentComponent: null,
       usuariosButtonEnabled: true,
-      eventosButtonEnabled: true
+      eventosButtonEnabled: true,
     };
   },
 
   methods: {
-
-
-    VistaUsuarios(){
+    VistaUsuarios() {
       if (this.usuariosButtonEnabled) {
-        this.currentComponent = 'Usuarios';
+        this.currentComponent = "Usuarios";
         this.usuariosButtonEnabled = false; // Deshabilita el botón
         this.eventosButtonEnabled = true; // Habilita el otro botón
       }
     },
 
-    VistaEventos(){
+    VistaEventos() {
       if (this.eventosButtonEnabled) {
-        this.currentComponent = 'Eventos';
+        this.currentComponent = "Eventos";
         this.eventosButtonEnabled = false; // Deshabilita el botón
         this.usuariosButtonEnabled = true; // Habilita el otro botón
       }
     },
 
-    salir(){
-      this.$router.push('/Home');
-    }
-
+    salir() {
+      this.$router.push("/Home");
+    },
   },
 };
 </script>
 
 <style scoped>
-body {
+/* body {
   background-image: linear-gradient(black 50%, rgb(82, 25, 25));
   margin: 0;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   height: 100%;
-}
+} */
 
-.main-container {
+.main-container-admin {
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -92,6 +92,7 @@ body {
   justify-content: space-between;
   border-bottom: 1px solid rgba(177, 172, 172, 0.2);
   margin-top: 10px;
+  padding-bottom: 5px;
 }
 
 /* left side of navbar */
@@ -150,13 +151,15 @@ body {
   margin-top: 20px;
   flex: 1;
 }
+/*
 .content :first-child {
-  font-size: 40px;
+  font-size: 20px;
   font-weight: bold;
 }
 .content :last-child {
-  font-size: 30px;
+  font-size: 20px;
 }
+*/
 /* Footer*/
 .footer {
   display: flex;
@@ -171,4 +174,3 @@ body {
   text-decoration: underline;
 }
 </style>
-
