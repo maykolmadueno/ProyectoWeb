@@ -29,10 +29,7 @@
             ></textarea>
           </div>
           <div class="date-time-container">
-            <div class="date-container">
-              <label for="e.fechaEvento">Fecha del Evento:</label>
-              <input type="date" v-model="e.fechaEvento" required />
-            </div>
+
 
             <div class="start-time-container">
               <label for="e.horaInicio">Hora de Inicio:</label>
@@ -157,7 +154,9 @@ export default {
   created() {
     //AQUI TRAIGO EL ELEMENTO SELECCIONADO:
     this.e = JSON.parse(localStorage.getItem("elementoSeleccionado"));
-    if(this.e.elemento == "evento") this.estadoEvento = true;
+    if(this.e.elemento == "evento") {
+      this.estadoEvento = true;
+    }
     else if(this.e.elemento == "video") this.estadoVideo = true;
     else if(this.e.elemento == "foto") this.estadoFoto = true;
     console.log("Valor del objeto recibido : " + JSON.stringify(this.e));
@@ -194,6 +193,7 @@ export default {
       const url = "http://localhost:5158/api/Eventos";
       const objeto = {
         idEvento : this.e.idEvento,
+        descripcion : this.e.descripcion,
         nombre : this.e.nombre,
         fechaEvento : this.e.fechaEvento,
         horaInicio : this.e.horaInicio,
