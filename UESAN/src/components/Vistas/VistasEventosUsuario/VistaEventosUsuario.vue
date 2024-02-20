@@ -1,12 +1,16 @@
 <template>
+  <div v-if="!est">
+        <h2>Este usuario no tiene eventos</h2>
+    </div>
   <div v-if="est" class="main-container">
+
+
+
     <div class="link-regresar-container">
       <router-link to="Home">Regresar</router-link>
     </div>
     <div class="titulo-filtro">
-      <div v-if="!est">
-        <h2>Este usuario no tiene eventos</h2>
-      </div>
+
       <div class="titulo-container">
         <h2>Filtros:</h2>
       </div>
@@ -82,8 +86,9 @@
         </tbody>
       </table>
     </div>
-    <button @click = "regresar">Regresar</button>
+
   </div>
+  <button @click = "regresar">Regresar</button>
 </template>
 
 <script>
@@ -168,6 +173,10 @@ export default {
     }
     localStorage.setItem("ventanaActual",JSON.stringify(v));
     this.$router.push('/detalleEventoVista');
+  },
+
+  regresar(){
+    this.$router.push('/Home');
   },
 
     async eliminarEvento(evento) {
