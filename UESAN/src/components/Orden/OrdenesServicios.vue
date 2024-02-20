@@ -141,6 +141,13 @@ export default {
       localStorage.removeItem('FotosSolicitadas');
       localStorage.removeItem('VideosSolicitados');
       localStorage.removeItem('CCSolicitud');
+      this.$q.notify({
+            //message: `Error al traer los ${objeto}`,
+            message: "El evento y sus servicios se crearon con éxito",
+            color: "positive",
+            position: "top",
+            timeout: 4000,
+          });
       this.$router.push('/Home');
 
     },

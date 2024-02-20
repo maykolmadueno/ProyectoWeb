@@ -109,6 +109,9 @@ export default {
   },
   methods: {
     crearServicios() {
+
+      const u = JSON.parse(localStorage.getItem("usuarioActual"));
+      this.idUsuario = parseInt(u.idUsuario);
       const EventoInsertDTO = {
         nombre: this.e.nombre,
         descripcion: this.e.descripcion,
@@ -119,7 +122,7 @@ export default {
         fechaCreacion: new Date().toISOString(),
         momentosImportantes: this.e.momentosImportantes,
         cantidadInvitados: Number(this.e.cantidadInvitados),
-        idUsuario: 1,
+        idUsuario: this.idUsuario,
       };
 
       localStorage.setItem("EventoCreado", JSON.stringify(EventoInsertDTO));

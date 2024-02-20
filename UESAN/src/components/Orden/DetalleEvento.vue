@@ -15,7 +15,7 @@
       <p>Lugar: {{ Evento.lugar }}</p>
       <p>Momentos importante: {{ Evento.momentosImportantes }}</p>
       <p>Cantidad de invitados: {{ Evento.cantidadInvitados }}</p>
-
+      <button v-if = "mod" @click ="modificar(Evento,'evento')">Modificar elemento</button>
     </div>
 
     <!-- Fotos -->
@@ -26,11 +26,12 @@
         <div>
           <strong>Solicitud {{ index + 1 }}</strong>
         </div>
-        <div>Cantidad: {{ foto.cantidad }}</div>
-        <div>Tipo: {{ foto.tipo }}</div>
-        <div>Persona Objetivo: {{ foto.persona }}</div>
+        <div>Cantidad: {{ foto.cantidadFotos }}</div>
+        <div>Tipo: {{ foto.tipoFoto }}</div>
+        <div>Persona Objetivo: {{ foto.personaObjetivo }}</div>
         <div>Canales: {{ foto.canales }}</div>
         <div>Link Destino: {{ foto.linkDestino }}</div>
+        <button v-if = "mod" @click ="modificar(foto,'foto')">Modificar elemento</button>
       </div>
     </div>
 
@@ -49,6 +50,7 @@
             <div>link: {{ video.link }}</div>
             <div>nombre objetivo : {{ video.nombreObjetivo }}</div>
             <div>Lugar de filmación: {{ video.lugarFilmacion }}</div>
+            <button v-if = "mod" @click ="modificar(video,'video')">Modificar elemento</button>
           </div>
         </div>
     </div>
@@ -72,14 +74,20 @@ import { stringify } from "postcss";
 export default {
 
   async created() {
+    const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
+    this.GetEvento();
+    if(usuario.idUsuario == this.Evento.usuarioPropietario.idUsuario){
+      this.mod = true;
+    }
     this.GetEvento();
     this.servicios = await this.getservicios();
-    //console.log("El valor de la variable servicios en el created : "+this.servicios);
+    console.log("El valor de la variable servicios en el created : "+ (this.servicios));
     if(this.servicios != null){
         //Primero evaluo cuantos son de foto.
       let idServicioFoto = this.buscador('foto');
       if(idServicioFoto != null){
-        this.fotos = await this.getFotos(idServicioFoto);
+        this.fotos = await this.getFotos(idServicioFoto);//revisar
+        console.log("Datos de foto : " + JSON.stringify(this.fotos));
       }
       let idServicioVideo = this.buscador('video');
       if(idServicioVideo != null){
@@ -104,13 +112,24 @@ export default {
       videos: [],
       cc : null,
       servicios:[],
+      mod : false,
     };
   },
 
   methods: {
     regresarServiciosMenu(){
-      localStorage.removeItem('EventoSeleccionadoAdmin');
-      this.$router.push('/AdminPrincipal');
+      const ventanaAnteriorString = localStorage.getItem("ventanaActual");
+      const ventanaAnterior = JSON.parse(ventanaAnteriorString);
+      if (ventanaAnterior && ventanaAnterior.contenido) {
+        console.log("Ventana Anterior: " + ventanaAnterior.contenido);
+        if (ventanaAnterior.contenido === "adminP") {
+          this.$router.push('/AdminPrincipal');
+        } else if (ventanaAnterior.contenido === "usuarioeventos") {
+          this.$router.push('/VistaEventosUsuario');
+        }
+      } else {
+        console.error("Error al obtener la ventana anterior del localStorage");
+      }
     },
 
     GetEvento(){
@@ -153,6 +172,14 @@ export default {
           });
         return null;
       }
+    },
+
+    modificar(objeto,nombre){
+      const nuevoObjeto = {...objeto}
+      nuevoObjeto.elemento = nombre;
+      console.log("Nuevo objeto foto : " + nuevoObjeto);
+      localStorage.setItem("elementoSeleccionado",JSON.stringify(nuevoObjeto));
+      this.$router.push('/modificarElemento');
     }
 
   },

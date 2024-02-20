@@ -146,7 +146,11 @@ export default {
   },
 
   verDetalles(evento) {
+    const v = {
+      contenido : "adminP"
+    }
     localStorage.setItem("EventoSeleccionado",JSON.stringify(evento));
+    localStorage.setItem("ventanaActual",JSON.stringify(v));
     this.$router.push('/detalleEventoVista');
   },
 

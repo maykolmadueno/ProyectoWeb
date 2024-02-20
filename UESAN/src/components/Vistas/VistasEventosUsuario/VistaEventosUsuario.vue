@@ -1,7 +1,8 @@
 <template>
 
   <div v-if = "!est">
-    <h2>Este usuario no tiene eventos</h2>
+    <h2>Aún no has creado eventos</h2>
+    <button @click = "regresar">Regresar</button>
   </div>
   <div v-if = "est">
     <div>
@@ -66,6 +67,7 @@
         </tbody>
       </table>
     </div>
+    <button @click = "regresar">Regresar</button>
   </div>
 </template>
 
@@ -133,9 +135,18 @@ export default {
     this.eventosFiltrados = this.eventos;
   },
 
+  regresar(){
+    this.$router.push('/Home');
+  },
+
 
   verDetalles(evento) {
     localStorage.setItem("EventoSeleccionado",JSON.stringify(evento));
+
+    const v = {
+      contenido : "usuarioeventos"
+    }
+    localStorage.setItem("ventanaActual",JSON.stringify(v));
     this.$router.push('/detalleEventoVista');
   },
 
