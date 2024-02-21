@@ -6,31 +6,31 @@
           <!-- Formulario -->
           <form @submit.prevent="guardarSolicitud">
             <!-- ... (campos del formulario) -->
-  
-            <div class="guardar-container">
-              <label for="guardar">Guardar:</label>
-              <select v-model="guardar" @change="limpiarLink" required>
-                <option value="Si">Sí</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-  
-            <div v-if="guardar === 'Si'" class="link-container">
-              <label for="link">Link:</label>
-              <input type="url" v-model="link" required />
-            </div>
-  
+
             <div class="num-camaras-container">
-              <label for="numeroCamaras">Número de Cámaras:</label>
-              <input type="text" v-model="numeroCamaras" required />
+              <label for="plataforma">Plataforma:</label>
+              <input type="text" v-model="plataforma" required />
             </div>
-  
-            <div class="num-angulos-container">
-              <label for="numeroAngulos">Número de Ángulos:</label>
-              <input type="number" v-model="numeroAngulos" min="1" required />
+
+            <div class="num-camaras-container">
+              <label for="Cuenta">En qué cuenta:</label>
+              <input type="text" v-model="cuenta" required />
             </div>
-  
-            <div class="angulos-container">
+
+            <div class="num-camaras-container">
+              <label for="Contacto">Contacto para la cuenta:</label>
+              <input type="text" v-model="contactoAccesoCuenta" required />
+            </div>
+
+            <div class="guardar-container">
+              <label for="numCams">Número de cámaras:</label>
+              <input type="radio" v-model = "numeroCamaras" value = 1 @click ="borrarSeleccionAngulo()">
+              <label for="numCams">1 (Tipo Registro)</label>
+              <input type="radio" v-model = "numeroCamaras" value = 2>
+              <label for="numCams">2 (Registro + Ángulo)</label>
+            </div>
+            
+            <div v-if="numeroCamaras == 2" class="angulos-container">
               <div
                 v-for="angulo in angulosDisponibles"
                 :key="angulo.id"
@@ -47,15 +47,15 @@
         <!-- Solicitud Creada o Modificada -->
         <div v-if="solicitudCreada || modifi">
           <h2>{{ modifi ? "Solicitud Modificada" : "Solicitud Creada" }}</h2>
-          <p>Nombre para Guardar: {{ solicitudCreada.guardar }}</p>
-          <p>Link: {{ solicitudCreada.link }}</p>
+          <p>Plataforma de Streaming: {{ solicitudCreada.plataforma }}</p>
+          <p>Cuenta: {{ solicitudCreada.cuenta }}</p>
+          <p>Contacto para la cuenta: {{ solicitudCreada.contacto }}</p>
           <p>Número de Cámaras: {{ solicitudCreada.numeroCamaras }}</p>
-          <p>Número de Ángulos: {{ solicitudCreada.numeroAngulos }}</p>
           <p>
-            Ángulos Seleccionados:
+            Ángulo Seleccionado:
             {{
-              solicitudCreada && solicitudCreada.angulos
-                ? solicitudCreada.angulos.join(", ")
+              solicitudCreada && solicitudCreada.angulo
+                ? solicitudCreada.angulo
                 : "N/A"
             }}
           </p>
@@ -83,7 +83,7 @@
   <script>
   export default {
     created() {
-      const solicitudGuardada = localStorage.getItem("CCSolicitud");
+      const solicitudGuardada = localStorage.getItem("StreamSolicitud");
   
       if (solicitudGuardada) {
         // Parsear la solicitud guardada y asignarla al estado del componente
@@ -94,16 +94,17 @@
   
     data() {
       return {
-        guardar: "",
-        link: "",
-        numeroCamaras: "",
-        numeroAngulos: 1,
+        plataforma: "",
+        cuenta: "",
+        contactoAccesoCuenta: "",
         angulosDisponibles: [
           { id: 1, nombre: "Ángulo 1", imagen: "url_angulo_1.jpg" },
           { id: 2, nombre: "Ángulo 2", imagen: "url_angulo_2.jpg" },
           { id: 3, nombre: "Ángulo 3", imagen: "url_angulo_3.jpg" },
+          { id: 4, nombre: "Ángulo 4", imagen: "url_angulo_4.jpg" },
         ],
-        angulosSeleccionados: [],
+        anguloSeleccionado: null,
+        numeroCamaras: "",
         mostrarFormulario: true,
         solicitudCreada: null,
         modifi: false,
@@ -118,14 +119,16 @@
         this.mostrarFormulario = true;
       },
       seleccionarAngulo(angulo) {
-        if (this.angulosSeleccionados.length < this.numeroAngulos) {
-          this.angulosSeleccionados.push(angulo);
-        }
+        this.anguloSeleccionado = angulo;
+      },
+      borrarSeleccionAngulo() {
+        this.anguloSeleccionado = null;
       },
   
       limpiarFormulario() {
-        this.guardar = "";
-        this.link = "";
+        this.plataforma = "";
+        this.contactoAccesoCuenta = "";
+        this.cuenta = "";
         this.numeroCamaras = "";
         this.numeroAngulos = 1;
         this.angulosSeleccionados = [];
@@ -150,26 +153,20 @@
         this.mostrarFormulario = true;
   
         // Llenar los campos del formulario con la solicitud original
-        this.guardar = this.solicitudCreada.guardar;
-        this.link = this.solicitudCreada.link;
+        this.plataforma = this.solicitudCreada.plataforma;
+        this.cuenta = this.solicitudCreada.cuenta;
+        this.contactoAccesoCuenta = this.solicitudCreada.contacto;
         this.numeroCamaras = this.solicitudCreada.numeroCamaras;
-        this.numeroAngulos = this.solicitudCreada.numeroAngulos;
-        this.angulosSeleccionados = this.solicitudCreada.angulos.map(
-          (nombreAngulo) => {
-            return this.angulosDisponibles.find(
-              (angulo) => angulo.nombre === nombreAngulo
-            );
-          }
-        );
+        this.anguloSeleccionado = this.solicitudCreada.angulo;
       },
   
       guardarSolicitud() {
         const solicitud = {
-          guardar: this.guardar,
-          link: this.link,
+          plataforma: this.plataforma,
+          cuenta: this.cuenta,
+          contacto: this.contactoAccesoCuenta,
           numeroCamaras: this.numeroCamaras,
-          numeroAngulos: this.numeroAngulos,
-          angulos: this.angulosSeleccionados.map((angulo) => angulo.nombre),
+          angulo: this.anguloSeleccionado,
         };
         this.solicitudCreada = solicitud;
         this.mostrarFormulario = false;
