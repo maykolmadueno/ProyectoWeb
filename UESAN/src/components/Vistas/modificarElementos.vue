@@ -242,13 +242,24 @@ export default {
       try {
         const response = await axios.put(url, objeto);
         console.log(response.data);
-        this.$q.notify({
+        if(response && response.data == true){
+          this.$q.notify({
             //message: `Error al traer los ${objeto}`,
             message: "La modificación se realizó con éxito",
             color: "positive",
             position: "top",
             timeout: 4000,
           });
+        }else{
+          this.$q.notify({
+            //message: `Error al traer los ${objeto}`,
+            message: "Ocurrió un error, o no se cumplieron las condiciones",
+            color: "negative",
+            position: "top",
+            timeout: 4000,
+          });
+        }
+
       } catch (error) {
         console.error("Error al actualizar el objeto:", error);
         this.$q.notify({
