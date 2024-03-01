@@ -74,7 +74,7 @@ export default {
 } */
 
 .main-container-admin {
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   /* justify-content: space-between; */
@@ -83,7 +83,7 @@ export default {
   padding: 0;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
-  /* height: 100%; */
+  height: 100vh;
 }
 .navbar {
   display: flex;
@@ -93,6 +93,10 @@ export default {
   border-bottom: 1px solid rgba(177, 172, 172, 0.2);
   margin-top: 10px;
   padding-bottom: 5px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
 }
 
 /* left side of navbar */
