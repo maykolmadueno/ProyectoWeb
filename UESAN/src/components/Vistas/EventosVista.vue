@@ -1,62 +1,68 @@
 <template>
   <div class="main-container">
     <!-- Filtros -->
-
-    <div class="titulo-container">
-      <h3>Filtros :</h3>
-    </div>
-
-    <div class="filtros-container">
-      <!-- Filtro por Estado -->
-      <div class="filtro-estado-container">
-        <label for="estado">Estado:</label>
-        <select v-model="filtroEstado" @change="aplicarFiltro">
-          <option value="">Todos</option>
-          <option value="Abierto">Abierto</option>
-          <option value="Confirmado">Confirmado</option>
-          <option value="Atendido">Atendido</option>
-        </select>
+    <div class="fixed-filtro">
+      <div class="titulo-container">
+        <h3>Filtros :</h3>
       </div>
 
-      <!-- Filtro por Nombre -->
-      <div class="filtro-nombre-container">
-        <label for="nombre">Nombre:</label>
-        <input type="text" v-model="filtroNombre" @input="aplicarFiltro" />
-      </div>
-
-      <!-- Filtro por Fecha -->
-      <div class="filtro-fecha-container">
-        <div class="filtro-fecha-i-container">
-          <label for="fechaInicio">Fecha Inicio:</label>
-          <input
-            type="date"
-            v-model="filtroFechaInicio"
-            @change="aplicarFiltro"
-          />
+      <div class="filtros-container">
+        <!-- Filtro por Estado -->
+        <div class="filtro-estado-container">
+          <label for="estado">Estado:</label>
+          <select v-model="filtroEstado" @change="aplicarFiltro">
+            <option value="">Todos</option>
+            <option value="Abierto">Abierto</option>
+            <option value="Confirmado">Confirmado</option>
+            <option value="Atendido">Atendido</option>
+          </select>
         </div>
-        <div class="filtro-fecha-f-container">
-          <label for="fechaFin">Fecha Fin:</label>
-          <input type="date" v-model="filtroFechaFin" @change="aplicarFiltro" />
+
+        <!-- Filtro por Nombre -->
+        <div class="filtro-nombre-container">
+          <label for="nombre">Nombre:</label>
+          <input type="text" v-model="filtroNombre" @input="aplicarFiltro" />
+        </div>
+
+        <!-- Filtro por Fecha -->
+        <div class="filtro-fecha-container">
+          <div class="filtro-fecha-i-container">
+            <label for="fechaInicio">Fecha Inicio:</label>
+            <input
+              type="date"
+              v-model="filtroFechaInicio"
+              @change="aplicarFiltro"
+            />
+          </div>
+          <div class="filtro-fecha-f-container">
+            <label for="fechaFin">Fecha Fin:</label>
+            <input
+              type="date"
+              v-model="filtroFechaFin"
+              @change="aplicarFiltro"
+            />
+          </div>
+        </div>
+        <div class="btn-container">
+          <button @click="limpiarFiltros">Limpiar filtros</button>
         </div>
       </div>
-      <div class="btn-container">
-        <button @click="limpiarFiltros">Limpiar filtros</button>
+      <div class="titulo-dos-container">
+        <h3>Eventos:</h3>
       </div>
     </div>
 
     <!-- Tabla de eventos -->
     <div class="tabla-container">
-      <div class="titulo-dos-container">
-        <h3>Eventos:</h3>
-      </div>
       <table>
         <thead>
           <tr>
             <th>Nombre</th>
             <th>Fecha</th>
             <th>Lugar</th>
-            <th>Nombre del Propietario</th>
+            <th>Propietario</th>
             <th>Estado</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -169,11 +175,11 @@ export default {
 
     verDetalles(evento) {
       const v = {
-      contenido : "adminP"
-    }
-    localStorage.setItem("EventoSeleccionado", JSON.stringify(evento));
-      localStorage.setItem("ventanaActual",JSON.stringify(v));
-    this.$router.push("/detalleEventoVista");
+        contenido: "adminP",
+      };
+      localStorage.setItem("EventoSeleccionado", JSON.stringify(evento));
+      localStorage.setItem("ventanaActual", JSON.stringify(v));
+      this.$router.push("/detalleEventoVista");
     },
 
     async eliminarEvento(evento) {
@@ -205,12 +211,19 @@ export default {
 .main-container {
   display: flex;
   flex-direction: column;
-  align-items: start;
-  justify-content: center;
+  align-items: center;
+  /* justify-content: center; */
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   margin: 0;
   padding: 0;
+  height: 100%;
+}
+
+.fixed-filtro {
+  position: fixed;
+  top: 80px;
+  margin: 0;
 }
 h3 {
   margin: 0;
@@ -238,12 +251,7 @@ select {
   column-gap: 30px;
   justify-content: center;
 }
-.tabla-container {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: center;
-}
+
 label {
   /* font-size: 18px; */
 }
@@ -262,30 +270,68 @@ input {
   margin-top: 20px;
   margin-bottom: 10px;
 }
+
+.tabla-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  /*  justify-content: center; */
+  margin-top: 270px;
+  width: 800px;
+  border: 1px solid white;
+
+  /* overflow-y: auto;
+  width: 800px;
+  position: absolute; */
+}
 table {
   width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+thead,
+tbody {
+  display: block;
+  width: 100%;
+}
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  width: 150px;
 }
 th {
   background-color: rgb(255, 255, 255);
   color: rgb(119, 15, 15);
-  text-align: center;
+  text-align: left;
   padding: 5px;
+
+  position: sticky;
+  top: 0;
+}
+tr {
+  width: 100%;
 }
 
 td {
   border: 1px solid #dddddd;
-  padding: 10px;
+  /*   padding: 10px; */
   text-align: left;
 }
-
-/* tr:nth-child(even) {
-  background-color: #f2f2f2;
-} */
 
 tr:hover {
   background-color: rgba(223, 112, 112, 0.3);
 }
 
+/* thead {
+  position: sticky;
+  top: 0;
+} */
+tbody {
+  max-height: 360px;
+  overflow-y: auto;
+}
 button {
   width: 100%;
   font-size: 14px;
