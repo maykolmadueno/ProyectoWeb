@@ -1,43 +1,46 @@
 <template>
   <div class="main-container">
-    <div class="titulo-uno-container">
-      <h3>Filtrar:</h3>
-    </div>
-    <div class="filtro-container">
-      <div class="filtro-nombre-container">
-        <input
-          type="text"
-          v-model="filtroNombre"
-          @input="aplicarFiltro"
-          placeholder="Nombre"
-        />
+    <div class="fixed-filtro">
+      <div class="titulo-uno-container">
+        <h3>Filtrar:</h3>
       </div>
-      <div class="filtro-area-container">
-        <input
-          type="text"
-          v-model="filtroArea"
-          @input="aplicarFiltro"
-          placeholder="Área"
-        />
-      </div>
+      <div class="filtro-container">
+        <div class="filtro-nombre-container">
+          <input
+            type="text"
+            v-model="filtroNombre"
+            @input="aplicarFiltro"
+            placeholder="Nombre"
+          />
+        </div>
+        <div class="filtro-area-container">
+          <input
+            type="text"
+            v-model="filtroArea"
+            @input="aplicarFiltro"
+            placeholder="Área"
+          />
+        </div>
 
-      <div class="filtro-estado-container">
-        <select v-model="filtroEstado" @change="aplicarFiltro">
-          <option value="">Todos los estados</option>
-          <option value="Activo              ">Activo</option>
-          <option value="inactivo            ">Eliminado</option>
-        </select>
-      </div>
+        <div class="filtro-estado-container">
+          <select v-model="filtroEstado" @change="aplicarFiltro">
+            <option value="">Todos los estados</option>
+            <option value="Activo              ">Activo</option>
+            <option value="inactivo            ">Eliminado</option>
+          </select>
+        </div>
 
-      <div class="btn-limpiar-container">
-        <button @click="limpiarFiltro">Limpiar</button>
+        <div class="btn-limpiar-container">
+          <button @click="limpiarFiltro">Limpiar</button>
+        </div>
       </div>
-    </div>
-
-    <div class="table-usuarios-container">
       <div class="titulo-dos-container">
         <h3>Usuarios:</h3>
       </div>
+    </div>
+
+    <!-- contenido de la tabla -->
+    <div class="table-user-container">
       <table>
         <thead>
           <tr>
@@ -286,6 +289,10 @@ export default {
   margin: 0;
   padding: 0;
 }
+.fixed-filtro {
+  position: fixed;
+  top: 100px;
+}
 h3 {
   margin: 0;
 }
@@ -305,11 +312,12 @@ h3 {
 select {
   height: 33px;
 }
-.tabla-container {
+.table-user-container {
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: center;
+  margin-top: 260px;
 }
 table {
   width: 100%;
