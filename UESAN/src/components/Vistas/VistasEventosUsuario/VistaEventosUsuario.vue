@@ -1,18 +1,14 @@
 <template>
   <div v-if="!est">
-        <h2>Este usuario no tiene eventos</h2>
-    </div>
+    <h2>Este usuario no tiene eventos</h2>
+  </div>
   <div v-if="est" class="main-container">
-
-
-
-    <div class="link-regresar-container">
-      <router-link to="Home">Regresar</router-link>
-    </div>
     <div class="titulo-filtro">
-
+      <div class="link-regresar-container">
+        <router-link to="Home">Regresar</router-link>
+      </div>
       <div class="titulo-container">
-        <h2>Filtros:</h2>
+        <h3>Filtros:</h3>
       </div>
       <div class="filtros-container">
         <div class="filtro-estado-container">
@@ -54,21 +50,22 @@
           <button @click="limpiarFiltros">Limpiar filtros</button>
         </div>
       </div>
+      <div class="titulo-dos-container">
+        <h3>Eventos:</h3>
+      </div>
     </div>
 
     <!-- Tabla de eventos -->
     <div v-if="est" class="tabla-container">
-      <div class="titulo-dos-container">
-        <h2>Eventos:</h2>
-      </div>
       <table>
         <thead>
           <tr>
             <th>Nombre</th>
             <th>Fecha</th>
             <th>Lugar</th>
-            <th>nombre Propietario</th>
-            <th>estado</th>
+            <th>Propietario</th>
+            <th>Estado</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -86,9 +83,8 @@
         </tbody>
       </table>
     </div>
-
   </div>
-  <button @click = "regresar">Regresar</button>
+  <!-- <button @click = "regresar">Regresar</button> -->
 </template>
 
 <script>
@@ -165,19 +161,19 @@ export default {
       this.eventosFiltrados = this.eventos;
     },
 
-  verDetalles(evento) {
-    localStorage.setItem("EventoSeleccionado",JSON.stringify(evento));
+    verDetalles(evento) {
+      localStorage.setItem("EventoSeleccionado", JSON.stringify(evento));
 
-    const v = {
-      contenido : "usuarioeventos"
-    }
-    localStorage.setItem("ventanaActual",JSON.stringify(v));
-    this.$router.push('/detalleEventoVista');
-  },
+      const v = {
+        contenido: "usuarioeventos",
+      };
+      localStorage.setItem("ventanaActual", JSON.stringify(v));
+      this.$router.push("/detalleEventoVista");
+    },
 
-  regresar(){
-    this.$router.push('/Home');
-  },
+    regresar() {
+      this.$router.push("/Home");
+    },
 
     async eliminarEvento(evento) {
       try {
@@ -214,19 +210,28 @@ export default {
   font-size: 16px;
   margin: 0;
   padding: 0;
-
   height: 100vh;
-
   background-image: linear-gradient(black 50%, rgb(82, 25, 25));
+  background-repeat: no-repeat;
+  background-size: contain;
+  backface-visibility: visible;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
-}
-h3 {
-  margin: 0;
+  z-index: 100;
 }
 
+.titulo-filtro {
+  position: fixed;
+}
+
+.titulo-container {
+  margin-top: 0;
+  padding: 0;
+}
 .titulo-container h3 {
+  margin-top: 20px;
   margin-bottom: 10px;
+  padding: 0;
 }
 
 .filtros-container {
@@ -249,12 +254,7 @@ select {
   column-gap: 30px;
   justify-content: center;
 }
-.tabla-container {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: center;
-}
+
 label {
   /* font-size: 18px; */
 }
@@ -273,29 +273,6 @@ input {
   margin-top: 20px;
   margin-bottom: 10px;
 }
-table {
-  width: 100%;
-}
-th {
-  background-color: rgb(255, 255, 255);
-  color: rgb(119, 15, 15);
-  text-align: center;
-  padding: 5px;
-}
-
-td {
-  border: 1px solid #dddddd;
-  padding: 10px;
-  text-align: left;
-}
-
-/* tr:nth-child(even) {
-  background-color: #f2f2f2;
-} */
-
-tr:hover {
-  background-color: rgba(223, 112, 112, 0.3);
-}
 
 button {
   width: 100%;
@@ -306,6 +283,7 @@ button:hover {
 }
 .link-regresar-container {
   margin-top: 30px;
+  text-align: center;
 }
 
 div a {
@@ -318,5 +296,65 @@ div a:hover {
 }
 div a:active {
   color: white;
+}
+.tabla-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  margin-top: 300px;
+  overflow-y: auto;
+  width: 800px;
+  position: relative;
+  border: 1px solid white;
+  /*  overflow-y: auto; */
+}
+
+table {
+  width: 100%;
+  /* height: 100vh; */
+  border-collapse: collapse;
+  font-size: 14px;
+}
+thead,
+tbody {
+  display: block;
+  width: 100%;
+}
+/* thead {
+  position: sticky;
+  top: 0;
+} */
+th,
+td {
+  /* padding: 8px; */
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  width: 150px;
+}
+
+th {
+  background-color: rgb(255, 255, 255);
+  color: rgb(119, 15, 15);
+  text-align: left;
+  /* padding: 5px; */
+  /*  width: 250px; */
+  position: sticky;
+  top: 0;
+}
+
+td {
+  border: 1px solid #dddddd;
+  /* padding: 10px; */
+  text-align: left;
+}
+
+tr:hover {
+  background-color: rgba(223, 112, 112, 0.3);
+}
+
+tbody {
+  overflow-y: auto;
+  max-height: 360px;
 }
 </style>
