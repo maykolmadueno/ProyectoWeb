@@ -6,12 +6,17 @@
         <p>ESAN Labs</p>
       </div>
       <div class="right-side">
-        <u v-if = "mostrar" @click = "ventanaAdmin">Administrador</u>
+        <u v-if="mostrar" @click="ventanaAdmin">Administrador</u>
         <u>Home</u>
-        <u @click = "irA('VistaEventosUsuario')">Mis Eventos </u>
+        <u @click="irA('VistaEventosUsuario')">Mis Eventos </u>
         <u>Mi Multimedia</u>
         <button @click="nuevoEvento">NUEVO EVENTO</button>
-        <img src="src/assets/persona.png" alt="" />
+        <div class="dropdown" @click="toggleMenu">
+          <img src="src/assets/persona.png" alt="" />
+          <div v-if="mostrarMenu" class="dropdown-content">
+            <u @click="cerrarSesion">Cerrar sesión</u>
+          </div>
+        </div>
       </div>
     </div>
     <div class="content">
@@ -28,27 +33,25 @@
 
 <script>
 export default {
-
   created() {
-      this.cambioMostrar();
-    },
+    this.cambioMostrar();
+  },
 
-  data(){
-      return{
-        usuario : null,
-        mostrar : false,
-      }
-    },
-
+  data() {
+    return {
+      usuario: null,
+      mostrar: false,
+      mostrarMenu: false, // Agregamos mostrarMenu para controlar la visibilidad del menú desplegable
+    };
+  },
 
   methods: {
-
-    cambioMostrar(){
-      const u = (localStorage.getItem("usuarioActual"));
+    cambioMostrar() {
+      const u = localStorage.getItem("usuarioActual");
       if (u) {
         try {
           this.usuario = JSON.parse(u);
-          if(this.usuario.tipo == "Admin"){
+          if (this.usuario.tipo == "Admin") {
             this.mostrar = true;
           }
         } catch (error) {
@@ -56,7 +59,6 @@ export default {
         }
       }
     },
-
 
     irA(ruta) {
       this.$router.push({ path: ruta });
@@ -67,11 +69,19 @@ export default {
       // Lógica para el botón Nuevo Evento
     },
 
-    ventanaAdmin(){
+    ventanaAdmin() {
       this.$router.push("/AdminPrincipal");
     },
 
+    toggleMenu() {
+      this.mostrarMenu = !this.mostrarMenu; // Alternar la visibilidad del menú desplegable
+    },
 
+    cerrarSesion() {
+      // Lógica para cerrar sesión
+      localStorage.removeItem("usuarioActual");
+      this.$router.push("/login"); // Redirigir a la página de inicio de sesión
+    },
   },
 };
 </script>
@@ -181,5 +191,36 @@ body {
 }
 .footer span {
   text-decoration: underline;
+}
+/* Estilos para el menú desplegable */
+.dropdown {
+  position: relative;
+
+  display: inline-block;
+  cursor: pointer; /* Asegúrate de que el cursor sea un puntero */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 90px;
+  box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content u {
+  color: black;
+  padding: 5px 2px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content u:hover {
+  background-color: #eb6e6e;
+  border-radius: 5px;
 }
 </style>
