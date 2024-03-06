@@ -95,9 +95,11 @@ export default {
       filtroNombre: "",
       filtroFechaInicio: "",
       filtroFechaFin: "",
+      token : ''
     };
   },
   mounted() {
+    this.token = (JSON.parse(localStorage.getItem("usuarioActual"))).token;
     this.fetchEventos();
   },
 
@@ -105,7 +107,11 @@ export default {
     async fetchEventos() {
       try {
         const response = await axios.get(
-          "http://localhost:5158/api/Eventos/GetAll"
+          "http://localhost:5158/api/Eventos/GetAll",{
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    }
         );
         this.eventos = response.data;
         this.eventosFiltrados = [...this.eventos];
@@ -153,15 +159,19 @@ export default {
 
     async cambiarEstado(evento) {
       try {
-        const response = await axios.get(
-          `http://localhost:5158/api/Eventos/CambiarEstadoEvento?id=${evento.idEvento}`
-        );
+        const response = await axios.post(
+          `http://localhost:5158/api/Eventos/CambiarEstadoEvento?id=${evento.idEvento}`,null,{
+            headers: {
+              'Authorization': `Bearer ${this.token}`
+            }
+            });
         this.$q.notify({
           message: "Se cambió el estado del evento ",
           color: "positive",
           position: "top",
           timeout: 4000,
         });
+        await this.fetchEventos();
       } catch (error) {
         console.error("Error:", error);
         this.$q.notify({
@@ -184,8 +194,12 @@ export default {
 
     async eliminarEvento(evento) {
       try {
-        const response = await axios.get(
-          `http://localhost:5158/api/Eventos?id=${evento.idEvento}`
+        const response = await axios.delete(
+          `http://localhost:5158/api/Eventos?id=${evento.idEvento}`,{
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    }
         );
         this.$q.notify({
           message: "Se Eliminó el evento ",
@@ -193,6 +207,7 @@ export default {
           position: "top",
           timeout: 4000,
         });
+        await this.fetchEventos();
       } catch (error) {
         console.error("Error:", error);
         this.$q.notify({

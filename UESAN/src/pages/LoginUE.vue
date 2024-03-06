@@ -46,6 +46,7 @@ export default {
         const usuario = {
           idUsuario: response.data.idUsuario,
           tipo: response.data.tipo,
+          token : response.data.token,
         };
         localStorage.setItem("usuarioActual", JSON.stringify(usuario));
         this.$q.notify({

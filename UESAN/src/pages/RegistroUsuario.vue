@@ -81,6 +81,7 @@ export default {
         const usuario = {
           idUsuario: response.data.idUsuario,
           tipo: response.data.tipo,
+          token : response.data.token,
         };
         this.$q.notify({
           message: "La cuenta se creó exitosamente ... :)",

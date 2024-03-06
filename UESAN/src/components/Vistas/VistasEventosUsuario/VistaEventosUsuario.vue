@@ -101,11 +101,13 @@ export default {
       filtroFechaInicio: "",
       filtroFechaFin: "",
       est: true,
+      token : ''
     };
   },
   mounted() {
     //Primero traigo al usuario:
     this.usuario = JSON.parse(localStorage.getItem("usuarioActual"));
+    this.token = this.usuario.token;
     this.fetchEventos();
   },
 
@@ -113,10 +115,14 @@ export default {
     async fetchEventos() {
       try {
         const response = await axios.get(
-          `http://localhost:5158/api/Eventos/GetAllByUsuarioVizualizadorAndcreador?id=${this.usuario.idUsuario}`
+          `http://localhost:5158/api/Eventos/GetAllByUsuarioVizualizadorAndcreador?id=${this.usuario.idUsuario}`, {
+          headers: {
+            'Authorization': `Bearer ${this.token}`
+          }
+        }
         );
         this.eventos = response.data;
-        console.log(this.eventos);
+        //console.log(this.eventos);
         this.eventosFiltrados = [...this.eventos];
       } catch (error) {
         this.est = false;
@@ -177,15 +183,28 @@ export default {
 
     async eliminarEvento(evento) {
       try {
-        const response = await axios.get(
-          `http://localhost:5158/api/Eventos?id=${evento.idEvento}`
-        );
-        this.$q.notify({
+        const response = await axios.delete(
+          `http://localhost:5158/api/Eventos?id=${evento.idEvento}`, {
+            headers: {
+              'Authorization': `Bearer ${this.token}`
+            }
+          });
+        if(response.data == true){
+          this.$q.notify({
           message: "Se Eliminó el evento ",
           color: "positive",
           position: "top",
           timeout: 4000,
         });
+        }else{
+          this.$q.notify({
+          message: "No se pudo eliminar el evento...",
+          color: "negative",
+          position: "top",
+          timeout: 3000,
+        });
+        }
+
       } catch (error) {
         console.error("Error:", error);
         this.$q.notify({

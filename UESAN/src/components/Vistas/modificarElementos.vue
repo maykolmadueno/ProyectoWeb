@@ -153,6 +153,7 @@ export default {
 
   created() {
     //AQUI TRAIGO EL ELEMENTO SELECCIONADO:
+    this.token = (JSON.parse(localStorage.getItem("usuarioActual"))).token;
     this.e = JSON.parse(localStorage.getItem("elementoSeleccionado"));
     if(this.e.elemento == "evento") {
       this.estadoEvento = true;
@@ -173,7 +174,8 @@ export default {
         'evento' : this.updateEvento,
         'foto' : this.updateFoto,
         'video' : this.updateVideo
-      }
+      },
+      token : ''
     };
   },
 
@@ -240,7 +242,11 @@ export default {
 
     async updateGeneral(url,objeto){
       try {
-        const response = await axios.put(url, objeto);
+        const response = await axios.put(url, objeto, {
+          headers: {
+            'Authorization': `Bearer ${this.token}`
+          }
+        });
         console.log(response.data);
         if(response && response.data == true){
           this.$q.notify({

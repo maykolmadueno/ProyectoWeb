@@ -113,6 +113,12 @@ export default {
       this.cc = JSON.parse(c);
     }
 
+  //Traigo el token:
+  const usu = localStorage.getItem("usuarioActual");
+  if(usu){
+    this.token = JSON.parse(usu).token;
+  }
+
 
   },
 
@@ -122,6 +128,7 @@ export default {
       fotos : [],
       videos: [],
       cc : null,
+      token : ''
     };
   },
 
@@ -248,7 +255,11 @@ export default {
     async FuncionEP(url, objeto, retorna){
 
       try{
-        const response = await axios.post(url,objeto);
+        const response = await axios.post(url,objeto,{
+        headers: {
+          'Authorization': `Bearer ${this.token}`
+        }
+        });
         console.log("La respuesta es: ", response.data);
         if (retorna) {
           return response.data;
@@ -257,27 +268,6 @@ export default {
         console.log("Ocurrió un error: ");
       }
 
-
-      /*
-      axios
-        .post(url,objeto)
-        .then((response) => {
-          console.log("La respuesta es:  "+ response.data);
-          if(retorna){
-            return response.data;
-          }
-        })
-        .catch((error) => {
-          console.log("Ocurrió un error " + error);
-          this.$q.notify({
-            message: "Ocurrió un error",
-            color: "negative",
-            position: "top",
-            timeout: 3000,
-
-          });
-        });
-        */
     }
 
   },

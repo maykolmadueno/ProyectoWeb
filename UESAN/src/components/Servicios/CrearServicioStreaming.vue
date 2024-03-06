@@ -29,7 +29,7 @@
               <input type="radio" v-model = "numeroCamaras" value = 2>
               <label for="numCams">2 (Registro + Ángulo)</label>
             </div>
-            
+
             <div v-if="numeroCamaras == 2" class="angulos-container">
               <div
                 v-for="angulo in angulosDisponibles"
@@ -40,7 +40,7 @@
                 <p>{{ angulo.nombre }}</p>
               </div>
             </div>
-  
+
             <button type="submit">{{ modifi ? "Modificar" : "Guardar" }}</button>
           </form>
         </div>
@@ -59,7 +59,7 @@
                 : "N/A"
             }}
           </p>
-  
+
           <!-- Botones para eliminar o modificar -->
           <div
             v-if="solicitudCreada || modifi"
@@ -75,7 +75,7 @@
       </div>
     </div>
   </template>
-  
+
   //////////
   //SCRIPT//
   //////////
@@ -84,14 +84,14 @@
   export default {
     created() {
       const solicitudGuardada = localStorage.getItem("StreamSolicitud");
-  
+
       if (solicitudGuardada) {
         // Parsear la solicitud guardada y asignarla al estado del componente
         this.solicitudCreada = JSON.parse(solicitudGuardada);
         this.mostrarFormulario = false; // Mostrar el formulario con la solicitud cargada
       }
     },
-  
+
     data() {
       return {
         plataforma: "",
@@ -110,7 +110,7 @@
         modifi: false,
       };
     },
-  
+
     methods: {
       eliminarSolicitud() {
         this.limpiarFormulario();
@@ -124,7 +124,7 @@
       borrarSeleccionAngulo() {
         this.anguloSeleccionado = null;
       },
-  
+
       limpiarFormulario() {
         this.plataforma = "";
         this.contactoAccesoCuenta = "";
@@ -133,25 +133,25 @@
         this.numeroAngulos = 1;
         this.angulosSeleccionados = [];
       },
-  
+
       regresarServiciosMenu() {
         // Verifica si hay una solicitud creada antes de redirigir
         if (this.solicitudCreada) {
           localStorage.setItem(
-            "CCSolicitud",
+            "StreamSolicitud",
             JSON.stringify(this.solicitudCreada)
           );
         } else {
-          localStorage.removeItem("CCSolicitud");
+          localStorage.removeItem("StreamSolicitud");
         }
-  
+
         this.$router.push("/services");
       },
-  
+
       modificarSolicitud() {
         this.modifi = true;
         this.mostrarFormulario = true;
-  
+
         // Llenar los campos del formulario con la solicitud original
         this.plataforma = this.solicitudCreada.plataforma;
         this.cuenta = this.solicitudCreada.cuenta;
@@ -159,7 +159,7 @@
         this.numeroCamaras = this.solicitudCreada.numeroCamaras;
         this.anguloSeleccionado = this.solicitudCreada.angulo;
       },
-  
+
       guardarSolicitud() {
         const solicitud = {
           plataforma: this.plataforma,
@@ -175,7 +175,7 @@
     },
   };
   </script>
-  
+
   ///////////
   //ESTILOS//
   ///////////
@@ -189,7 +189,7 @@
     border-radius: 10px;
     text-align: center;
     color: white; */
-  
+
     margin: 0;
     padding: 0;
     display: flex;
@@ -205,7 +205,7 @@
     font-size: 17px;
     font-family: Arial, Helvetica, sans-serif;
   }
-  
+
   .left-right-container {
     margin: 0;
     display: flex;
@@ -214,7 +214,7 @@
     justify-content: space-around;
     /* border-bottom: 3px solid rgba(172, 34, 34, 0.5); */
   }
-  
+
   /* Left part of the code */
   .formulario-container {
     display: flex;
@@ -223,12 +223,12 @@
     justify-content: center;
     padding-bottom: 20px;
   }
-  
+
   .formulario-container h3 {
     /*  text-align: center; */
     margin: 30px 0px;
   }
-  
+
   form {
     /* flex: 1; */
     display: flex;
@@ -238,7 +238,7 @@
     padding: 0;
     /* padding: 0 40px; */
   }
-  
+
   .guardar-container,
   .link-container,
   .num-camaras-container,
@@ -249,13 +249,13 @@
     justify-content: start;
     margin-bottom: 5px;
   }
-  
+
   .angulos-container {
     display: flex;
     justify-content: space-around;
     margin-top: 10px;
   }
-  
+
   .angulos-container img {
     width: 50px;
     height: 50px;
@@ -263,11 +263,11 @@
     border-radius: 5px;
     transition: transform 0.3s ease-in-out;
   }
-  
+
   .angulos-container img:hover {
     transform: scale(1.1);
   }
-  
+
   button {
     padding: 10px;
     margin-top: 10px;
@@ -277,7 +277,7 @@
     border-radius: 5px;
     cursor: pointer;
   }
-  
+
   button:hover {
     background-color: #c9302c;
   }

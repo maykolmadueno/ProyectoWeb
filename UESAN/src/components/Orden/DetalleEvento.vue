@@ -28,9 +28,9 @@
         </div>
         <div>Cantidad: {{ foto.cantidadFotos }}</div>
         <div>Tipo: {{ foto.tipoFoto }}</div>
-        <div>Persona Objetivo: {{ foto.personaObjetivo }}</div>
+        <div>Persona Objetivo: {{ foto.pesonaObjetivo }}</div>
         <div>Canales: {{ foto.canales }}</div>
-        <div>Link Destino: {{ foto.linkDestino }}</div>
+        <div>Link Destino: {{ foto.link }}</div>
         <button v-if = "mod" @click ="modificar(foto,'foto')">Modificar elemento</button>
       </div>
     </div>
@@ -74,20 +74,22 @@ import { stringify } from "postcss";
 export default {
 
   async created() {
-    const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
     this.GetEvento();
+    const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
+    //Traigo el token:
+    this.token = usuario.token;
+
     if(usuario.idUsuario == this.Evento.usuarioPropietario.idUsuario){
       this.mod = true;
     }
-    this.GetEvento();
     this.servicios = await this.getservicios();
-    console.log("El valor de la variable servicios en el created : "+ (this.servicios));
+    //console.log("El valor de la variable servicios en el created : "+ (this.servicios));
     if(this.servicios != null){
         //Primero evaluo cuantos son de foto.
       let idServicioFoto = this.buscador('foto');
       if(idServicioFoto != null){
         this.fotos = await this.getFotos(idServicioFoto);//revisar
-        console.log("Datos de foto : " + JSON.stringify(this.fotos));
+        //console.log("Datos de foto : " + JSON.stringify(this.fotos));
       }
       let idServicioVideo = this.buscador('video');
       if(idServicioVideo != null){
@@ -113,6 +115,7 @@ export default {
       cc : null,
       servicios:[],
       mod : false,
+      token : ''
     };
   },
 
@@ -159,7 +162,11 @@ export default {
 
     async funcionGet(url,objeto){
       try{
-        const response = await axios.get(url);
+        const response = await axios.get(url, {
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    });
         return (response.data);
       }catch(error){
         //console.error('Error:', error);

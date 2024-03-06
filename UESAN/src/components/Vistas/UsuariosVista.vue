@@ -52,7 +52,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="usuario in usuariosFiltrados" :key="usuario.id">
+          <tr v-for="usuario in usuariosFiltrados" :key="usuario.idUsuario">
             <td>{{ usuario.idUsuario }}</td>
             <td>{{ usuario.nombre }}</td>
             <td>{{ usuario.correo }}</td>
@@ -60,13 +60,13 @@
             <td>{{ usuario.estado }}</td>
             <td>
               <button
-                v-if="usuario.estado != 'inactivo            '"
+                v-if="usuario.estado != 'inactivo'"
                 @click="borrarUsuarioConfirmar(usuario.idUsuario)"
               >
-                Borrar
+              Borrar
               </button>
               <button
-                v-if="usuario.estado != 'inactivo            '"
+                v-if="usuario.estado != 'inactivo'"
                 @click="cambiarContrasena(usuario)"
               >
                 Cambiar contraseña
@@ -126,16 +126,27 @@ export default {
       usuarioM: null,
       nuevaContra: null,
       mostrarModalCambiarContrasena: false,
+      token : ''
     };
   },
   mounted() {
+      //Traigo el token:
+    const usu = localStorage.getItem("usuarioActual");
+    if(usu){
+      this.token = JSON.parse(usu).token;
+    }
     this.getUsuarios();
+
   },
   methods: {
     async getUsuarios() {
       try {
         const response = await axios.get(
-          "http://localhost:5158/api/Usuario/GetAll?estado=todos"
+          "http://localhost:5158/api/Usuario/GetAll?estado=todos", {
+          headers: {
+            'Authorization': `Bearer ${this.token}`
+          }
+        }
         );
         this.usuarios = response.data;
         this.usuariosFiltrados = [...this.usuarios];
@@ -178,7 +189,11 @@ export default {
       try {
         this.mostrarModalEliminar = false;
         const response = await axios.delete(
-          `http://localhost:5158/api/Usuario?id=${this.usuarioAEliminarId}`
+          `http://localhost:5158/api/Usuario?id=${this.usuarioAEliminarId}`, {
+          headers: {
+            'Authorization': `Bearer ${this.token}`
+          }
+        }
         );
         console.log("Operación de eliminación : " + response);
         this.$q.notify({
@@ -227,8 +242,11 @@ export default {
         };
         this.mostrarModalModificar = false;
         const response = await axios.put(
-          "http://localhost:5158/api/Usuario",
-          u
+          "http://localhost:5158/api/Usuario",u, {
+            headers: {
+              'Authorization': `Bearer ${this.token}`
+            }
+          }
         );
         if (response.data === true) {
           const datosCorreo = {
