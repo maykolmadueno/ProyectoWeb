@@ -76,6 +76,7 @@
 
 <script>
 import axios from "axios";
+import html2pdf from 'html2pdf.js';
 export default {
 
   created() {
@@ -83,7 +84,6 @@ export default {
     const solicitudGuardada = localStorage.getItem("EventoCreado");
     if (solicitudGuardada) {
       this.Evento = JSON.parse(solicitudGuardada);
-
     }
 
     //Aqui del servicio foto:
@@ -116,7 +116,9 @@ export default {
   //Traigo el token:
   const usu = localStorage.getItem("usuarioActual");
   if(usu){
-    this.token = JSON.parse(usu).token;
+    const u = JSON.parse(usu);
+    this.token = u.token;
+    this.id = u.idUsuario;
   }
 
 
@@ -128,7 +130,10 @@ export default {
       fotos : [],
       videos: [],
       cc : null,
-      token : ''
+      token : '',
+      nombre : '',
+      correo : '',
+      id: 0,
     };
   },
 
@@ -142,12 +147,20 @@ export default {
       await this.CrearServiciosFotos(idEvento);
       await this.crearServicioVideos(idEvento);
       await this.CrearServicioCC(idEvento);
-
+      console.log("Acontinuacion enviara el correo : ")
+      await this.generateAndSendPdf();
 
       localStorage.removeItem('EventoCreado');
       localStorage.removeItem('FotosSolicitadas');
       localStorage.removeItem('VideosSolicitados');
       localStorage.removeItem('CCSolicitud');
+
+      //Aqui llamo a la función que enviará el pdf por correo.
+
+
+
+
+
       this.$q.notify({
             //message: `Error al traer los ${objeto}`,
             message: "El evento y sus servicios se crearon con éxito",
@@ -159,9 +172,60 @@ export default {
 
     },
 
+    async getUsuario(){
+      const url = `http://localhost:5158/api/Usuario/${this.id}`;
+      try {
+          const response = await  axios.get(url, {
+            headers: {
+              'Authorization': `Bearer ${this.token}`
+            }
+          });
+          console.log("datos del usuario : " + response.data);
+          return response.data;
+        } catch (error) {
+          console.error('Error al enviar la solicitud: ', error);
+        }
+
+    },
+
+    async generateAndSendPdf() {
+      // Generar el PDF desde el HTML de la página actual
+      const element = document.documentElement;
+      const opt = {
+        margin:       1,
+        filename:     this.Evento.nombre + '.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+
+      let usuario = await this.getUsuario();
+      console.log("Nombre del usuario : " + usuario.nombre + " correo del usuario : " + usuario.correo);
+
+      try {
+        const pdf = await html2pdf().set(opt).from(element).toPdf().get('pdf');
+        const blob = new Blob([pdf.output('blob')], { type: 'application/pdf' });
+        const formData = new FormData();
+        formData.append('pdfFile', blob, this.Evento.nombre + '.pdf'); // Adjuntar el archivo PDF al FormData
+        formData.append('Para', usuario.correo); // Adjuntar el atributo 'Para' al FormData
+        formData.append('Nombre', usuario.nombre); // Adjuntar el atributo 'Nombre' al FormData
+
+        // Enviar el FormData al backend
+        const response = await axios.post('http://localhost:5158/api/Email/sendEmailPDF', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${this.token}`
+          }
+        });
+        console.log("Respuesta del envio del correo : " + response.data);
+      } catch (error) {
+        console.error('Error al enviar el PDF:', error);
+      }
+    },
+
     async CrearEvento(){
       let url = "http://localhost:5158/api/Eventos/CreateEventos";
-      return await this.FuncionEP(url,this.Evento,true);
+      return await this.FuncionEP(url,this.Evento,true, "evento ");
     },
 
     async CrearServiciosFotos(ide){
@@ -174,7 +238,7 @@ export default {
         }
         //luego llamo a la api servicio.
         let url = "http://localhost:5158/api/Servicio/CreateServicio";
-        let idServicios = await this.FuncionEP(url,servicio,true);
+        let idServicios = await this.FuncionEP(url,servicio,true, "servicio fotos");
         //Luego de crear el servicio fotos, puedo crear los elementos individuales.
         url = "http://localhost:5158/api/ServicioFotos/CreateServicioFotos";
         for (const element of this.fotos) {
@@ -190,7 +254,7 @@ export default {
           link: element.linkDestino
         };
           // Ahora creo las fotos individuales y espero su resolución antes de continuar con la siguiente iteración
-          await this.FuncionEP(url, f, false);
+          await this.FuncionEP(url, f, false, "fotos");
         }
       }
     },
@@ -205,7 +269,7 @@ export default {
         }
         //luego llamo a la api servicio.
         const url = "http://localhost:5158/api/Servicio/CreateServicio";
-        let idServicios = await this.FuncionEP(url,servicio,true);
+        let idServicios = await this.FuncionEP(url,servicio,true,"servicio Video");
         //Luego de crear el servicio videos, puedo crear los elementos individuales.
         let urlv = "http://localhost:5158/api/Video/CreateVideo";
         for (const element of this.videos) {
@@ -217,7 +281,7 @@ export default {
             idServicio: idServicios,
           };
           // Ahora creo los videos individuales:
-          await this.FuncionEP(urlv, v, false);
+          await this.FuncionEP(urlv, v, false,"videos");
         }
       }
     },
@@ -231,7 +295,7 @@ export default {
         }
         //luego llamo a la api servicio.
         const url = "http://localhost:5158/api/Servicio/CreateServicio";
-        let idServicios = await this.FuncionEP(url, servicio, true);
+        let idServicios = await this.FuncionEP(url, servicio, true, "servicios circuitocerrado");
         //Creo el circuito cerrado:
 
         let array = this.cc.angulos;
@@ -248,11 +312,11 @@ export default {
           angulos: cadena,
         }
         const urls = "http://localhost:5158/api/CircuitoCerrado/CreateCircuitoCeraddo";
-        await this.FuncionEP(urls,circuito,false);
+        await this.FuncionEP(urls,circuito,false,"circuito cerrado");
       }
     },
 
-    async FuncionEP(url, objeto, retorna){
+    async FuncionEP(url, objeto, retorna,cadena){
 
       try{
         const response = await axios.post(url,objeto,{
@@ -260,12 +324,12 @@ export default {
           'Authorization': `Bearer ${this.token}`
         }
         });
-        console.log("La respuesta es: ", response.data);
+        console.log("La respuesta es: ", response.data + " al crear " + cadena);
         if (retorna) {
           return response.data;
         }
       }catch{
-        console.log("Ocurrió un error: ");
+        console.log("Ocurrió un error al crear : " + cadena );
       }
 
     }
