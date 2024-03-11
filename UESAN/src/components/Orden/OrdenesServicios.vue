@@ -65,6 +65,17 @@
 
     </div>
 
+    <div v-if="ss">
+      <h2>Solicitud de Stream</h2>
+      <p>Guardar: {{ ss.plataforma }}</p>
+      <p>Link: {{ ss.cuenta }}</p>
+      <p>Número de Cámaras: {{ ss.contacto }}</p>
+      <p>Número de Ángulos: {{ ss.numeroCamaras }}</p>
+      <p>Ángulos Seleccionados: {{ ss && ss.angulos ? ss.angulos.join(', ') : 'N/A' }}</p>
+
+
+    </div>
+
 
 
     <button @click="regresarServiciosMenu">Regresar a servicios</button>
@@ -113,6 +124,9 @@ export default {
       this.cc = JSON.parse(c);
     }
 
+  const s = localStorage.getItem("StreamSolicitud");
+  if(s) this.ss = JSON.parse(s);
+
   //Traigo el token:
   const usu = localStorage.getItem("usuarioActual");
   if(usu){
@@ -130,6 +144,7 @@ export default {
       fotos : [],
       videos: [],
       cc : null,
+      ss : null,
       token : '',
       nombre : '',
       correo : '',
@@ -147,14 +162,14 @@ export default {
       await this.CrearServiciosFotos(idEvento);
       await this.crearServicioVideos(idEvento);
       await this.CrearServicioCC(idEvento);
+      await this.CrearServicioStream(idEvento);
       console.log("Acontinuacion enviara el correo : ")
       await this.generateAndSendPdf();
-
       localStorage.removeItem('EventoCreado');
       localStorage.removeItem('FotosSolicitadas');
       localStorage.removeItem('VideosSolicitados');
       localStorage.removeItem('CCSolicitud');
-
+      localStorage.removeItem('StreamSolicitud');
       //Aqui llamo a la función que enviará el pdf por correo.
 
 
@@ -180,7 +195,7 @@ export default {
               'Authorization': `Bearer ${this.token}`
             }
           });
-          console.log("datos del usuario : " + response.data);
+          //console.log("datos del usuario : " + response.data);
           return response.data;
         } catch (error) {
           console.error('Error al enviar la solicitud: ', error);
@@ -200,7 +215,7 @@ export default {
       };
 
       let usuario = await this.getUsuario();
-      console.log("Nombre del usuario : " + usuario.nombre + " correo del usuario : " + usuario.correo);
+      //console.log("Nombre del usuario : " + usuario.nombre + " correo del usuario : " + usuario.correo);
 
       try {
         const pdf = await html2pdf().set(opt).from(element).toPdf().get('pdf');
@@ -316,6 +331,34 @@ export default {
       }
     },
 
+    async CrearServicioStream(ide){
+      if(this.ss != null){
+        const servicioStream = {
+          idEvento : ide,
+          nombre : "Stream",
+          tipo : "Stream"
+        }
+        //luego llamo a la api servicio.
+        const url = "http://localhost:5158/api/Servicio/CreateServicio";
+        let idServicios = await this.FuncionEP(url, servicioStream, true, "servicio Stream");
+
+
+        let nAngulos = this.ss.numeroCamaras;
+        let ang = nAngulos.toString();
+
+        const stream = {
+          idServicio : idServicios,
+          plataforma: this.ss.plataforma ,
+          cuenta: this.ss.cuenta,
+          contacto : this.ss.contacto,
+          numCam: ang,
+          angulo: this.ss.angulo,
+        }
+        const urls = "";
+        await this.FuncionEP(urls,stream,false,"stream");
+      }
+    },
+
     async FuncionEP(url, objeto, retorna,cadena){
 
       try{
@@ -324,7 +367,7 @@ export default {
           'Authorization': `Bearer ${this.token}`
         }
         });
-        console.log("La respuesta es: ", response.data + " al crear " + cadena);
+        //console.log("La respuesta es: ", response.data + " al crear " + cadena);
         if (retorna) {
           return response.data;
         }
